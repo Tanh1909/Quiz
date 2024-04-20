@@ -1,0 +1,36 @@
+.questions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  .container {
+    width: 60%;
+    .header {
+      background-color: #fff;
+      border: 1px solid rgb(218, 220, 224);
+      border-radius: 8px;
+      margin-bottom: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::after {
+      content: "";
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 10%;
+      background-color: #1677ff;
+    }
+    .form__item {
+      background-color: #fff;
+      border: 1px solid rgb(218, 220, 224);
+      border-radius: 8px;
+      margin-bottom: 12px;
+      padding: 24px;
+    }
+    .radio {
+      font-weight: bold;
+    }
+  }
+}
