@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { PlayCircleOutlined } from "@ant-design/icons";
+import { getAllTopic } from "../../services/topic";
 
 const columns = [
   {
@@ -36,13 +37,13 @@ const columns = [
 function Topic() {
   const [data, setData] = useState([]);
   useEffect(() => {
-    const getTopic = async () => {
-      const response = await axios.get("http://localhost:8080/topics");
+    const fetchApi = async () => {
+      const response = await getAllTopic();
       if (response) {
-        setData(response.data);
+        setData(response);
       }
     };
-    getTopic();
+    fetchApi();
   }, []);
   return (
     <>

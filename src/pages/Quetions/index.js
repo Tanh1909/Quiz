@@ -1,8 +1,10 @@
 import { Button, Card, Form, Input, Radio, Space } from "antd";
-import axios from "axios";
+import { createAnswer } from "../../services/answer";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./style.scss";
+import { getQuestionByTopicId } from "../../services/question";
+import { getTopicById } from "../../services/topic";
 function Question() {
   const [data, setData] = useState([]);
   const [title, setTitle] = useState("");
@@ -12,30 +14,25 @@ function Question() {
   const { id } = params;
 
   useEffect(() => {
-    const getQuestionById = async () => {
-      const questions = await axios.get(
-        `http://localhost:8080/questions?topicId=${id}`
-      );
-      const topics = await axios.get(`http://localhost:8080/topics/${id}`);
-      setTitle(topics && topics.data.name);
-      setData(questions && questions.data);
+    const fetchApi = async () => {
+      const questions = await getQuestionByTopicId(id);
+      const topics = await getTopicById(id);
+      setTitle(topics && topics.name);
+      setData(questions && questions);
     };
-    getQuestionById();
+    fetchApi();
   }, []);
 
   const onReset = () => {
     form.resetFields();
   };
 
-  const handleFinish = (value) => {
-    const createAnswer = async () => {
-      const response = await axios.post("http://localhost:8080/answers", {
-        topicId: id,
-        answers: value.answers,
-      });
-      navigate(`/result/${response.data.id}`);
-    };
-    createAnswer();
+  const handleFinish = async (value) => {
+    const response = await createAnswer({
+      topicId: id,
+      answers: value.answers,
+    });
+    navigate(`/result/${response.id}`);
   };
   return (
     <>

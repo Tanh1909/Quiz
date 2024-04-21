@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import correctAnswerAudio from "../../assets/audios/correct-answer.mp3";
 import wrongAnswerAudio from "../../assets/audios/button-sound.mp3";
+import { getQuestionByTopicId } from "../../services/question";
 const { Countdown } = Statistic;
 function PlayMode() {
   const { id } = useParams();
@@ -28,14 +29,12 @@ function PlayMode() {
     });
   };
   useEffect(() => {
-    const getQuestionById = async () => {
-      const questions = await axios.get(
-        `http://localhost:8080/questions?topicId=${id}`
-      );
-      setQuestions(questions.data);
-      setQuestion(questions.data[index]);
+    const fetchApi = async () => {
+      const questions = await getQuestionByTopicId(id);
+      setQuestions(questions);
+      setQuestion(questions[index]);
     };
-    getQuestionById();
+    fetchApi();
   }, []);
   useEffect(() => {
     setLock(false);

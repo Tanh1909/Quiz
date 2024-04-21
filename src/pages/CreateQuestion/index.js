@@ -66,12 +66,6 @@ function CreateQuestion() {
   };
   const handleFinish = async (value) => {
     console.log(refElement.current);
-    // setLoading(true);
-    // setTimeout(() => {
-    //   setLoading(false);
-    // }, 3000);
-    // console.log(value);
-    // navigate("/topics");
   };
   useEffect(() => {
     refElement.current?.scrollIntoView(optionScoll);

@@ -2,15 +2,16 @@ import { Button, Card, Space } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { getAllAnswers } from "../../services/answer";
 
 function Answers() {
   const [data, setData] = useState([]);
   useEffect(() => {
-    const getAnswers = async () => {
-      const answers = await axios.get("http://localhost:8080/answers");
-      setData(answers.data.reverse());
+    const fetchApi = async () => {
+      const answers = await getAllAnswers();
+      setData(answers.reverse());
     };
-    getAnswers();
+    fetchApi();
   }, []);
   return (
     <>
