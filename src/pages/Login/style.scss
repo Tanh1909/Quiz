@@ -1,0 +1,13 @@
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+  .container {
+    border: 1px solid rgb(218, 220, 224);
+    border-radius: 8px;
+    width: 60%;
+    background-color: #fff;
+    padding: 40px;
+  }
+}

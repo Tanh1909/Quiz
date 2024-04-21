@@ -2,6 +2,7 @@ import DefaultLayout from "../layouts/DefaultLayout";
 import Answers from "../pages/Answers";
 import CreateQuestion from "../pages/CreateQuestion";
 import Home from "../pages/Home";
+import Login from "../pages/Login";
 import NotFound from "../pages/NotFound";
 import PlayMode from "../pages/PlayMode";
 import Question from "../pages/Quetions";
@@ -21,6 +22,7 @@ const routes = [
       { path: "/questions/:id", element: <Question /> },
       { path: "/result/:id", element: <Result /> },
       { path: "/create-quetion", element: <CreateQuestion /> },
+      { path: "/login", element: <Login /> },
     ],
   },
   {
