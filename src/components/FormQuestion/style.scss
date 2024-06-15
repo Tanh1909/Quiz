@@ -1,0 +1,58 @@
+.FormQuestion {
+  .groupBtn {
+    margin-bottom: 20px;
+    .btn {
+      flex: 1;
+      height: 50px;
+      font-size: 16px;
+      font-weight: bold;
+      &.primary {
+        background-color: #ea4335;
+        color: white;
+        &:hover {
+          background-color: #f65f52;
+        }
+      }
+      &.secondary {
+        background-color: #fcb4af;
+        color: #fa7366;
+        &:hover {
+          background-color: #ea4335;
+          color: white;
+        }
+      }
+    }
+  }
+  .header {
+    margin-bottom: 10px;
+    width: 100%;
+    .show {
+      background-color: white;
+      border: 1px solid #e8ebed;
+      padding: 5px;
+      border-radius: 5px;
+    }
+  }
+  .Form {
+    .card {
+      margin-bottom: 20px;
+      .ant-radio-wrapper {
+        span {
+          color: black;
+        }
+      }
+    }
+    .btnSubmit {
+      width: 100%;
+      height: 50px;
+      background-color: #ea4335;
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+      &:hover {
+        background-color: #fcb4af;
+        color: #ea4335;
+      }
+    }
+  }
+}

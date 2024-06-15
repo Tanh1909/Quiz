@@ -1,8 +1,10 @@
-import { get } from "../utils/request";
+import axios from "axios";
 
 const getQuestionByTopicId = async (id) => {
-    const response = await get(`http://localhost:8080/questions?topicId=${id}`);
-    return response;
+  const response = await axios.get(
+    `http://localhost:8080/questions?topicId=${id}`
+  );
+  return response.data;
 };
 
-export {getQuestionByTopicId}
+export { getQuestionByTopicId };

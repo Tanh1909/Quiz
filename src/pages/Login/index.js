@@ -1,5 +1,5 @@
-import { Button, Checkbox, Flex, Form, Input } from "antd";
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { Button, Checkbox, Flex, Form, Input, Result } from "antd";
+import { LockOutlined, UserOutlined, SmileOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import "./style.scss";
 function Login() {
@@ -9,6 +9,9 @@ function Login() {
   return (
     <>
       <div className="login">
+        <div className="icon">
+          <Result icon={<SmileOutlined />} title="Welcome!" />
+        </div>
         <Form
           name="normal_login"
           className="container"

@@ -39,6 +39,7 @@ function Topic() {
   useEffect(() => {
     const fetchApi = async () => {
       const response = await getAllTopic();
+  
       if (response) {
         setData(response);
       }

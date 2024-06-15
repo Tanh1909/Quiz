@@ -7,6 +7,7 @@ import {
   Radio,
   Space,
   Tooltip,
+  Typography,
   Upload,
 } from "antd";
 import {
@@ -25,7 +26,7 @@ import { useEffect, useRef, useState } from "react";
 import TextArea from "antd/es/input/TextArea";
 import Papa from "papaparse";
 import { message } from "antd";
-function CreateQuestion() {
+function Create() {
   const [scroll, setScroll] = useState(0);
   const [render, setRender] = useState(false);
   const refElement = useRef(null);
@@ -41,7 +42,6 @@ function CreateQuestion() {
     questions: [{ question: "", answers: ["", "", "", ""] }],
   };
   const handleImport = (file) => {
-    console.log(file);
     Papa.parse(file, {
       skipEmptyLines: true,
       encoding: "ISO-8859-1",
@@ -77,7 +77,7 @@ function CreateQuestion() {
   };
   return (
     <>
-      <div className="createQuestion animate__fadeInUp">
+      <div className="createQuestion ">
         <div className="container">
           <Flex className="header">
             <TextArea
@@ -252,14 +252,13 @@ function CreateQuestion() {
                         </Form.Item>
                       );
                     })}
-                    <Flex
-                      vertical
-                      align="center"
-                      justify="space-between"
-                      className="sider-bar"
-                      gap={"middle"}
-                    >
-                      <Tooltip placement="right" arrow={false} title={"Thêm"}>
+                    <div className="side-bar">
+                      <Tooltip
+                        className="item"
+                        placement="right"
+                        arrow={false}
+                        title={"Thêm"}
+                      >
                         <Button
                           type="text"
                           icon={<PlusCircleOutlined style={{ fontSize: 24 }} />}
@@ -271,7 +270,12 @@ function CreateQuestion() {
                           }}
                         />
                       </Tooltip>
-                      <Tooltip placement="right" arrow={false} title={"import"}>
+                      <Tooltip
+                        className="item"
+                        placement="right"
+                        arrow={false}
+                        title={"import"}
+                      >
                         <Upload
                           accept=".csv"
                           showUploadList={false}
@@ -286,7 +290,12 @@ function CreateQuestion() {
                         </Upload>
                       </Tooltip>
 
-                      <Tooltip placement="right" arrow={false} title={"Gửi"}>
+                      <Tooltip
+                        className="item"
+                        placement="right"
+                        arrow={false}
+                        title={"Gửi"}
+                      >
                         <Button
                           loading={loading}
                           type="primary"
@@ -294,11 +303,18 @@ function CreateQuestion() {
                           icon={<CheckOutlined />}
                         />
                       </Tooltip>
-                    </Flex>
+                    </div>
                   </>
                 );
               }}
             </Form.List>
+            <Form.Item noStyle shouldUpdate>
+              {() => (
+                <Typography>
+                  <pre>{JSON.stringify(form.getFieldsValue(), null, 2)}</pre>
+                </Typography>
+              )}
+            </Form.Item>
           </Form>
         </div>
       </div>
@@ -306,4 +322,4 @@ function CreateQuestion() {
   );
 }
 
-export default CreateQuestion;
+export default Create;

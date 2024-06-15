@@ -1,12 +1,12 @@
-import { get } from "../utils/request";
+import axios from "axios";
+const url = process.env.REACT_APP_BASE_URL + "/topics";
 
 const getAllTopic = async () => {
-  const response = await get("/topics");
-  return response;
+  console.log(url);
+  const response = await axios.get(url);
+  console.log(response);
+  return response.data.data;
 };
-const getTopicById = async (id) => {
-  const response = await get(`topics/${id}`);
-  return response;
-};
+const getTopicById = async (id) => {};
 
 export { getAllTopic, getTopicById };

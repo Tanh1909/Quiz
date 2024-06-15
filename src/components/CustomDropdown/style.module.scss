@@ -1,0 +1,33 @@
+.CustomDropdown {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 -4px 32px rgba(0, 0, 0, 0.2);
+  color: #1d2129;
+  min-width: 230px;
+  padding: 20px;
+  .fullname {
+    color: #292929;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .username {
+    color: #757575;
+    font-size: 14px;
+    margin-top: 4px;
+  }
+  .item {
+    color: #666;
+    cursor: pointer;
+    display: block;
+    font-size: 14px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    &:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    &:hover {
+      color: #1d2129;
+    }
+  }
+}

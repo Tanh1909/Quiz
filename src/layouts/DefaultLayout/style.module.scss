@@ -1,0 +1,24 @@
+.DefaultLayout {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  flex-direction: column;
+  overflow-x: hidden;
+  .Container {
+    flex: 1;
+    display: flex;
+    margin-top: 65px;
+    margin-left: 96px;
+    .content {
+      padding: 20px;
+      width: 100%;
+    }
+  }
+}
+@media (max-width: 992px) {
+  .DefaultLayout {
+    .Container {
+      margin-left: 0;
+    }
+  }
+}

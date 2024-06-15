@@ -1,0 +1,21 @@
+.CustomCard {
+  width: 100%;
+  .card {
+    width: 100%;
+    .ant-card-body {
+      padding: 10px;
+      .img {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 5px;
+      }
+      .avatar {
+        width: 24px;
+        height: 24px;
+        object-fit: cover;
+        border-radius: 50%;
+      }
+    }
+  }
+}

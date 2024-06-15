@@ -1,0 +1,11 @@
+.CustomDrawer {
+  width: 100%;
+  border: none !important;
+  .ant-menu-item {
+    color: #666;
+    cursor: pointer;
+    display: block;
+    font-size: 14px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+}

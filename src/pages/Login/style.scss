@@ -2,11 +2,19 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 60vh;
+  padding: 50px;
+  // height: 60vh;
+  // flex-direction: column;
+  // background-color: aqua;
+  .icon {
+    // background-color: antiquewhite;
+    width: 40%;
+    height: 100%;
+  }
   .container {
     border: 1px solid rgb(218, 220, 224);
     border-radius: 8px;
-    width: 60%;
+    width: 40%;
     background-color: #fff;
     padding: 40px;
   }

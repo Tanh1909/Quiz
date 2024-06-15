@@ -52,13 +52,13 @@ function Result() {
     };
     getAnswers();
   }, []);
-  console.log(countCorrect);
   return (
     <>
       <div className="result">
         <Flex gap={"small"} vertical className="container">
           <div className="header">
             <h1>Kết Quả Chủ đề: {title} </h1>
+
             <Flex
               style={{ width: "100%" }}
               align="center"
@@ -67,14 +67,14 @@ function Result() {
             >
               <Title level={4}>
                 Đúng: {countCorrect} | Sai : {questions.length - countCorrect} |
-                Tổng số câu: {questions.length}{" "}
+                Tổng số câu: {questions.length}
               </Title>
               <Progress
                 type="circle"
                 showInfo={true}
                 percent={(countCorrect / questions.length) * 100}
-                strokeColor="#87d068"
-                trailColor="#f50"
+                strokeColor="#34A853"
+                trailColor="#EA4335"
               ></Progress>
             </Flex>
           </div>
@@ -83,24 +83,17 @@ function Result() {
               return (
                 <>
                   <Form.Item
-                    hidden
-                    initialValue={item.id}
-                    name={["answers", index, "questionId"]}
-                  >
-                    <Input />
-                  </Form.Item>
-                  <Form.Item
                     className="form__item"
                     label={
                       <>
                         <Space>
                           <h2>{`Câu ${index + 1} : ${item.question}`}</h2>
                           {item.correctAnswer === +answers[index] ? (
-                            <Tag className="tag" color="#87d068">
+                            <Tag className="tag" color="#34A853">
                               Đúng
                             </Tag>
                           ) : (
-                            <Tag className="tag" color="#f50">
+                            <Tag className="tag" color="#EA4335">
                               Sai
                             </Tag>
                           )}
@@ -108,12 +101,6 @@ function Result() {
                       </>
                     }
                     name={["answers", index, "answer"]}
-                    rules={[
-                      {
-                        required: true,
-                        message: "không được để trống!",
-                      },
-                    ]}
                   >
                     <Radio.Group className="radio">
                       <Space direction="vertical">

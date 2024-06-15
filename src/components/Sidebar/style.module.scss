@@ -1,0 +1,56 @@
+.Sidebar {
+  width: fit-content;
+  width: 96px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin-top: 65px;
+  border: none !important;
+
+  :global(.ant-menu-item) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    padding: 0;
+    &:hover {
+      &:first-child {
+        background-color: transparent !important;
+      }
+    }
+    svg {
+      font-size: 20px;
+    }
+    :global(.ant-menu-title-content) {
+      margin-inline-start: 0 !important;
+      line-height: 24px;
+      font-size: 11px;
+      font-weight: 600;
+      .createButton {
+        align-items: center;
+        background-color: #ea4335;
+        border-color: #ea4335;
+        border-radius: 50%;
+        color: #fff;
+        cursor: pointer;
+        display: flex;
+        height: 44px;
+        justify-content: center;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        width: 44px;
+      }
+    }
+  }
+}
+@media (max-width: 992px) {
+  .Sidebar {
+    display: none;
+  }
+}

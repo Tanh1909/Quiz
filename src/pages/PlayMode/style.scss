@@ -31,7 +31,7 @@
     width: 90%;
     .item {
       cursor: pointer;
-      background-color: #1677ff;
+      background-color: #ea4335;
       width: 100%;
       height: 100%;
       border: 1px solid rgb(218, 220, 224);
@@ -44,7 +44,7 @@
       min-height: 100px;
       padding: 20px;
       &:hover {
-        background-color: #3788f9;
+        background-color: #fa7366;
       }
       &.correct {
         background-color: green;

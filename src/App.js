@@ -1,9 +1,16 @@
+import { ConfigProvider } from "antd";
+import { Provider } from "react-redux";
 import AllRoutes from "./components/AllRoutes";
+import { createStore } from "redux";
+import { rootReducer } from "./redux/reducers";
 
 function App() {
+  const store = createStore(rootReducer);
   return (
     <>
-      <AllRoutes />
+      <Provider store={store}>
+        <AllRoutes />
+      </Provider>
     </>
   );
 }

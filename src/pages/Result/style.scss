@@ -9,7 +9,7 @@
       background-color: #fff;
       border: 1px solid rgb(218, 220, 224);
       border-radius: 8px;
-      margin-bottom: 12px;
+      margin-bottom: 20px;
       overflow: hidden;
       position: relative;
       display: flex;
@@ -24,14 +24,14 @@
       top: 0;
       left: 0;
       height: 15px;
-      background-color: #1677ff;
+      background-color: #ea4335;
     }
     .form__item {
       //   width: fit-content;
       background-color: #fff;
       border: 1px solid rgb(218, 220, 224);
       border-radius: 8px;
-      margin-bottom: 12px;
+      margin-bottom: 20px;
       padding: 24px;
     }
     .radio {
@@ -41,12 +41,12 @@
       }
       .true {
         span {
-          color: #87d068;
+          color: #34a853;
         }
       }
       .false {
         span {
-          color: #f50;
+          color: #ea4335;
         }
       }
     }
@@ -55,6 +55,13 @@
       width: 40px;
       text-align: center;
       font-weight: bold;
+    }
+  }
+}
+@media (max-width: 992px) {
+  .result {
+    .container {
+      width: 100%;
     }
   }
 }

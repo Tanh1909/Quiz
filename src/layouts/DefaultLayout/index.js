@@ -1,45 +1,22 @@
-import { Layout, Slider } from "antd";
-import HeaderContent from "../../components/HeaderContent";
 import { Outlet } from "react-router-dom";
-
-const { Header, Footer, Sider, Content } = Layout;
-const headerStyle = {
-  position: "sticky",
-  top: 0,
-  zIndex: 1,
-  backgroundColor: "#fff",
-  border: "1px solid rgb(218, 220, 224)",
-  marginBottom: 12,
-};
-const contentStyle = {
-  padding: "50px",
-};
-const siderStyle = {
-  textAlign: "center",
-  lineHeight: "120px",
-  color: "#fff",
-  backgroundColor: "#1677ff",
-};
-const footerStyle = {
-  textAlign: "center",
-  backgroundColor: "#fff",
-};
+import Header from "../../components/Header";
+import Footer from "../../components/Footer";
+import Sidebar from "../../components/Sidebar";
+import style from "./style.module.scss";
 
 function DefaultLayout() {
   return (
     <>
-      <Layout>
-        <Header style={headerStyle}>
-          <HeaderContent />
-        </Header>
-        <Layout>
-          {/* <Sider style={siderStyle}>Sider</Sider> */}
-          <Content style={contentStyle}>
+      <div className={style.DefaultLayout}>
+        <Header />
+        <div className={style.Container}>
+          <Sidebar />
+          <div className={style.content}>
             <Outlet />
-          </Content>
-        </Layout>
-        <Footer style={footerStyle}>Copyright by @dtienanh1909</Footer>
-      </Layout>
+          </div>
+        </div>
+        <Footer />
+      </div>
     </>
   );
 }
