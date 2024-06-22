@@ -10,7 +10,6 @@
       background-color: #fff;
       border: 1px solid rgb(218, 220, 224);
       border-radius: 8px;
-      margin-bottom: 20px;
       position: relative;
       overflow: hidden;
       padding: 10px 10px 50px 10px;
@@ -35,7 +34,7 @@
       font-weight: bold;
       transition: linear 200ms;
       &:focus {
-        border-bottom: 3px solid #1677ff;
+        border-bottom: 3px solid #ea4335;
       }
     }
     .form__item {

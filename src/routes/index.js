@@ -11,6 +11,7 @@ import Question from "../pages/Quetions";
 import Result from "../pages/Result";
 import Topic from "../pages/Topic";
 import TopicDetail from "../pages/TopicDetail";
+import PrivateRoute from "../components/AllRoutes/PrivateRoutes/index";
 const routes = [
   {
     path: "/",
@@ -18,22 +19,26 @@ const routes = [
     children: [
       { index: true, element: <Home /> },
       {
-        path: "/topics",
-        element: <Topic />,
+        element: <PrivateRoute />,
+        children: [
+          {
+            path: "/topics",
+            element: <Topic />,
+          },
+          {
+            path: "/more-topics/:id",
+            element: <MoreTopics />,
+          },
+          {
+            path: "/detail-topics/:id",
+            element: <TopicDetail />,
+          },
+          { path: "/answers", element: <Answers /> },
+          { path: "/questions/:id", element: <Question /> },
+          { path: "/result/:id", element: <Result /> },
+          { path: "/create-quetion", element: <Create /> },
+        ],
       },
-      {
-        path: "/more-topics/:id",
-        element: <MoreTopics />,
-      },
-      {
-        path: "/detail-topics/:id",
-        element: <TopicDetail />,
-      },
-      { path: "/answers", element: <Answers /> },
-      { path: "/questions/:id", element: <Question /> },
-      { path: "/result/:id", element: <Result /> },
-      { path: "/create-quetion", element: <Create /> },
-      { path: "/login", element: <Login /> },
     ],
   },
   {

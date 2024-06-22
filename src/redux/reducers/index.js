@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import { SET_QUESTIONS } from "../actions";
+import authReducers from "./auth";
 
 //Question
 const questionReducer = (state = [], action) => {
@@ -11,5 +12,5 @@ const questionReducer = (state = [], action) => {
       return state;
   }
 };
-const rootReducer = combineReducers({ questionReducer });
+const rootReducer = combineReducers({ questionReducer, authReducers });
 export { rootReducer };

@@ -1,21 +1,17 @@
-.login {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 50px;
-  // height: 60vh;
-  // flex-direction: column;
-  // background-color: aqua;
-  .icon {
-    // background-color: antiquewhite;
-    width: 40%;
-    height: 100%;
+.ModelLogin {
+  .ant-space {
+    width: 100%;
+    .ant-space-item {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
-  .container {
-    border: 1px solid rgb(218, 220, 224);
-    border-radius: 8px;
-    width: 40%;
-    background-color: #fff;
-    padding: 40px;
+  a {
+    color: #f77260;
+  }
+  .form {
+    width: 100%;
   }
 }

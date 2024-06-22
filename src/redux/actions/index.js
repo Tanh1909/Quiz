@@ -1,4 +1,6 @@
 //questions
+import { loginAction, logoutAction, LOGIN, LOGOUT } from "./auth";
+
 const SET_QUESTIONS = "SET_QUESTIONS";
 const setQuestionsAction = (value) => {
   return {
@@ -6,4 +8,11 @@ const setQuestionsAction = (value) => {
     payment: value,
   };
 };
-export { SET_QUESTIONS, setQuestionsAction };
+export {
+  SET_QUESTIONS,
+  setQuestionsAction,
+  loginAction,
+  logoutAction,
+  LOGIN,
+  LOGOUT,
+};

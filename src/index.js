@@ -9,7 +9,16 @@ import { ConfigProvider } from "antd";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
-    <App />
+    <ConfigProvider
+      theme={{
+        components: {},
+        token: {
+          colorPrimary: "#ea4335",
+        },
+      }}
+    >
+      <App />
+    </ConfigProvider>
   </BrowserRouter>
 );
 

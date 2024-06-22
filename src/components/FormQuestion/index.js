@@ -80,6 +80,9 @@ function FormQuestion({ data }) {
               defaultActiveBorderColor: "#ea4335",
             },
           },
+          token: {
+            colorPrimary: "#ea4335",
+          },
         }}
       >
         <div className="FormQuestion">

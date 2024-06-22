@@ -1,10 +1,10 @@
 import {
   Button,
-  Card,
   Flex,
   Form,
-  Input,
+  Modal,
   Radio,
+  Select,
   Space,
   Tooltip,
   Typography,
@@ -13,7 +13,6 @@ import {
 import {
   ImportOutlined,
   CheckOutlined,
-  UploadOutlined,
   PlusCircleOutlined,
   CloseOutlined,
   DeleteOutlined,
@@ -33,13 +32,15 @@ function Create() {
   const [form] = useForm();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [reqData, setReqData] = useState({});
   const optionScoll = {
     behavior: "smooth",
     block: "center",
   };
   console.log("render");
   const initValue = {
-    questions: [{ question: "", answers: ["", "", "", ""] }],
+    name: "",
+    questions: [{ question: "", answers: ["", "", "", ""], correctAnswer: 0 }],
   };
   const handleImport = (file) => {
     Papa.parse(file, {
@@ -65,7 +66,8 @@ function Create() {
     return false;
   };
   const handleFinish = async (value) => {
-    console.log(refElement.current);
+    setReqData(value);
+    showModal();
   };
   useEffect(() => {
     refElement.current?.scrollIntoView(optionScoll);
@@ -75,19 +77,63 @@ function Create() {
     const object = form.getFieldValue(pathName);
     form.setFieldValue(pathName, { ...object, correctAnswer: e.target.value });
   };
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const options = [
+    {
+      value: "jack",
+      label: "Jack",
+    },
+  ];
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+  const [addImage, setAddImage] = useState(true);
+  const onHandleModelForm = (value) => {};
+
   return (
     <>
+      <Modal
+        title={<h2>Tạo mới Quizz</h2>}
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        cancelText="Hủy"
+        okText="Xuất bản"
+        okButtonProps={{
+          autoFocus: true,
+          htmlType: "submit",
+        }}
+        modalRender={(dom) => (
+          <Form layout="vertical" onFinish={onHandleModelForm}>
+            {dom}
+          </Form>
+        )}
+      >
+        <Form.Item label={<h3>Tải ảnh lên (Tùy chọn) </h3>} name={"file"}>
+          <Upload
+            onChange={(e) => {
+              e.fileList.length > 0 ? setAddImage(false) : setAddImage(true);
+            }}
+            listType="picture-card"
+            beforeUpload={(e) => false}
+          >
+            {addImage ? <div>upload</div> : ""}
+          </Upload>
+        </Form.Item>
+        <Form.Item label={<h3>Chọn chủ đề</h3>} name={"category"}>
+          <Select options={options} defaultValue={options[0].value} />
+        </Form.Item>
+      </Modal>
+
       <div className="createQuestion ">
         <div className="container">
-          <Flex className="header">
-            <TextArea
-              autoSize
-              style={{ width: "80%", height: "auto" }}
-              className="title"
-              defaultValue={"MẪU KHÔNG CÓ TIÊU ĐỀ"}
-              variant="borderless"
-            />
-          </Flex>
           <Form
             scrollToFirstError={optionScoll}
             className="animate__fadeIn"
@@ -96,6 +142,17 @@ function Create() {
             onFinish={handleFinish}
             initialValues={initValue}
           >
+            <Form.Item name={"name"}>
+              <Flex className="header">
+                <TextArea
+                  autoSize
+                  style={{ width: "80%", height: "auto" }}
+                  className="title"
+                  placeholder={"MẪU KHÔNG CÓ TIÊU ĐỀ"}
+                  variant="borderless"
+                />
+              </Flex>
+            </Form.Item>
             <Form.List name={"questions"}>
               {(fields, { add, remove }) => {
                 return (
@@ -108,7 +165,7 @@ function Create() {
                             rules={[
                               {
                                 required: true,
-                                message: "Please input!",
+                                message: "Không được để trống!",
                               },
                             ]}
                           >
@@ -130,6 +187,7 @@ function Create() {
                                     name={field.name}
                                     onChange={handleRadio}
                                     className="radio__group"
+                                    defaultValue={0}
                                   >
                                     <Space
                                       className="space"
