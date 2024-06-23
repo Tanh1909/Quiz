@@ -1,10 +1,31 @@
-import { Button, Flex, Form, Input, Space } from "antd";
+import { Alert, Button, Flex, Form, Input, Space, notification } from "antd";
 import { LockOutlined, UserOutlined, SmileOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-function LoginForm() {
+import { login } from "../../../services/auth";
+import { useDispatch } from "react-redux";
+import { loginAction } from "../../../redux/actions";
+function LoginForm({ cancel, api }) {
+  const dispatch = useDispatch();
+  const handleSubmit = async (value) => {
+    const response = await login(value);
+    if (response.code == 200) {
+      dispatch(loginAction(response.data.userResponse));
+      cancel && cancel(false);
+    } else {
+      api["error"]({
+        message: "Sai tài khoản hoặc mật khẩu",
+        duration: 2,
+      });
+    }
+  };
   return (
     <>
-      <Form className="form" layout="vertical" requiredMark={false}>
+      <Form
+        onFinish={handleSubmit}
+        className="form"
+        layout="vertical"
+        requiredMark={false}
+      >
         <Form.Item
           label="Tên đăng nhập"
           name="username"

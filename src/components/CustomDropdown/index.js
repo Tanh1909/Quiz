@@ -2,7 +2,15 @@ import { BellOutlined } from "@ant-design/icons";
 import { Dropdown, Flex } from "antd";
 import style from "./style.module.scss";
 import clxs from "clsx";
+import { logout } from "../../services/auth";
+import { useDispatch } from "react-redux";
+import { logoutAction } from "../../redux/actions/auth";
 function CustomDropdown({ user }) {
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    logout();
+    dispatch(logoutAction());
+  };
   const items = [
     {
       label: "Trang cá nhân",
@@ -13,7 +21,7 @@ function CustomDropdown({ user }) {
       key: "1",
     },
     {
-      label: "Đăng xuất",
+      label: <div onClick={handleLogout}>Đăng xuất</div>,
       key: "3",
     },
   ];

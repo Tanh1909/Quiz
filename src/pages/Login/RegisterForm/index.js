@@ -1,10 +1,38 @@
 import { Button, Flex, Form, Input, Space } from "antd";
 import { LockOutlined, UserOutlined, SmileOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-function RegisterForm() {
+import { register, login } from "../../../services/auth";
+import { useDispatch } from "react-redux";
+import { loginAction } from "../../../redux/actions";
+function RegisterForm({ cancel, api }) {
+  const dispatch = useDispatch();
+  const [form] = Form.useForm();
+  const handleSubmit = async (value) => {
+    const data = await register(value);
+    if (data.code == 200) {
+      const response = await login(value);
+      api["success"]({
+        message: "Đăng ký thành công!",
+        duration: 2,
+      });
+      dispatch(loginAction(response.data.userResponse));
+      cancel && cancel(false);
+    } else if (data.code == 1001) {
+      form.setFields([{ name: "username", errors: ["username đã tồn tại"] }]);
+    } else if (data.code == 1012) {
+      form.setFields([{ name: "email", errors: ["email đã tồn tại"] }]);
+    }
+  };
+
   return (
     <>
-      <Form className="form" layout="vertical" requiredMark={false}>
+      <Form
+        form={form}
+        onFinish={handleSubmit}
+        className="form"
+        layout="vertical"
+        requiredMark={false}
+      >
         <Form.Item
           label="Email"
           name="email"

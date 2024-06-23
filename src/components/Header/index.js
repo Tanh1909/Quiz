@@ -24,7 +24,7 @@ function Header() {
     <>
       <Flex align="center" justify="space-between" className="Header">
         <div className="drawer">
-          <CustomDrawer user={user} />
+          <CustomDrawer user={user} auth={auth} />
         </div>
         <div className="search">
           <SearchOutlined style={{ fontSize: 20 }} />
@@ -71,7 +71,7 @@ function Header() {
             <CustomDropdown user={user} />
           </Space>
         ) : (
-          <Space size={"large"} align="center">
+          <Space size={"large"} align="center" className="right">
             <Button
               onClick={() => {
                 setIsModalOpen(true);

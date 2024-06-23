@@ -3,17 +3,19 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   MenuOutlined,
-  ContainerOutlined,
   DesktopOutlined,
   HomeOutlined,
   PlusOutlined,
   HistoryOutlined,
   UserOutlined,
+  LoginOutlined,
+  LogoutOutlined,
+  UserAddOutlined,
 } from "@ant-design/icons";
 import "./style.scss";
 import { icons } from "antd/es/image/PreviewGroup";
 
-function CustomDrawer({ user }) {
+function CustomDrawer({ user, auth }) {
   const [open, setOpen] = useState(false);
   const endpoint = window.location.href.split(process.env.REACT_APP_URL)[1];
   const showDrawer = () => {
@@ -51,8 +53,20 @@ function CustomDrawer({ user }) {
     },
     {
       key: "3",
-      icon: <ContainerOutlined />,
+      icon: <LogoutOutlined />,
       label: "Đăng xuất",
+    },
+  ];
+  const privateItems = [
+    {
+      key: "/login",
+      icon: <LoginOutlined />,
+      label: "Đăng nhập",
+    },
+    {
+      key: "/register",
+      icon: <UserAddOutlined />,
+      label: "Đăng ký",
     },
   ];
   return (
@@ -60,7 +74,7 @@ function CustomDrawer({ user }) {
       <MenuOutlined style={{ fontSize: 20 }} onClick={() => setOpen(true)} />
       <Drawer
         width={"80%"}
-        title={<TitleDrawer user={user} />}
+        title={auth.user && <TitleDrawer user={user} />}
         placement={"left"}
         closable={false}
         onClose={onClose}
@@ -84,7 +98,7 @@ function CustomDrawer({ user }) {
             }}
             defaultSelectedKeys={endpoint}
             theme="light"
-            items={items}
+            items={auth.isLogin ? items : privateItems}
           />
         </ConfigProvider>
       </Drawer>
