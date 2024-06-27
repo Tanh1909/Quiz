@@ -4,11 +4,15 @@ import { Link } from "react-router-dom";
 import { register, login } from "../../../services/auth";
 import { useDispatch } from "react-redux";
 import { loginAction } from "../../../redux/actions";
+import { useState } from "react";
 function RegisterForm({ cancel, api }) {
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const handleSubmit = async (value) => {
+    setLoading(true);
     const data = await register(value);
+    setLoading(false);
     if (data.code == 200) {
       const response = await login(value);
       api["success"]({
@@ -105,7 +109,12 @@ function RegisterForm({ cancel, api }) {
         </Form.Item>
 
         <Form.Item>
-          <Button style={{ width: "100%" }} type="primary" htmlType="submit">
+          <Button
+            loading={loading}
+            style={{ width: "100%" }}
+            type="primary"
+            htmlType="submit"
+          >
             Đăng Ký
           </Button>
         </Form.Item>

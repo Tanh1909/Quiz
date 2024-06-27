@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import CustomCarousel from "../../components/CustomCarousel";
 import { Button, Flex } from "antd";
 import { useNavigate } from "react-router-dom";
-import Register from "../Register";
-import Login from "../Login";
+import MyResults from "../MyResults";
+
 function Home() {
   const navigate = useNavigate();
   useEffect(() => {}, []);

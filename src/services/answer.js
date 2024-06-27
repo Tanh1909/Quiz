@@ -1,10 +1,14 @@
-
+import { axios } from "../utils/fetchData";
 const createAnswer = async (data) => {
-  // const response = await post("/answers", data);
-  // return response;
+  const response = await axios.post("/answers", data);
+  return response.data;
 };
-const getAllAnswers = async () => {
-  // const response = await get("/answers");
-  // return response;
+const findAnswerById = async (id) => {
+  const response = await axios.get(`/answers/${id}`);
+  return response.data;
 };
-export { createAnswer, getAllAnswers };
+const findAnswerByUser = async (id) => {
+  const response = await axios.get(`/answers/user/${id}`);
+  return response.data;
+};
+export { createAnswer, findAnswerById, findAnswerByUser };

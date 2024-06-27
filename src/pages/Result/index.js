@@ -1,56 +1,51 @@
-import {
-  Input,
-  Card,
-  Flex,
-  Form,
-  Radio,
-  Space,
-  Tag,
-  theme,
-  Progress,
-  Typography,
-} from "antd";
-import axios from "axios";
+import { Flex, Form, Radio, Space, Tag, Progress, Avatar, Tooltip } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-// import { Pie } from "@ant-design/plots";
 import "./style.scss";
 import Title from "antd/es/typography/Title";
+import { findAnswerById } from "../../services/answer";
+import { getTopicById } from "../../services/topic";
+import defaultImage from "../../assets/images/defaultAvatar.png";
 function Result() {
+  const [date, setDate] = useState();
   const [countCorrect, SetCountCorrect] = useState(0);
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState([]);
   const [title, setTitle] = useState("");
+  const [user, setUser] = useState({});
   const { id } = useParams();
   const [form] = Form.useForm();
   useEffect(() => {
     const getAnswers = async () => {
-      const answer = await axios.get(`http://localhost:8080/answers/${id}`);
-      const question = await axios.get(
-        `http://localhost:8080/questions?topicId=${answer.data.topicId}`
-      );
-      const topics = await axios.get(
-        `http://localhost:8080/topics/${answer.data.topicId}`
-      );
+      const answer = await findAnswerById(id);
+      console.log(answer);
+      const question = answer.data.topic.questions;
+
       form.setFieldsValue({
         answers: answer.data.answers,
       });
-      setTitle(topics && topics.data.name);
-      setQuestions(question.data);
-      const arr = answer.data.answers.map((item, index) => {
+      const formattedDate = new Date(answer.data.createdAt);
+      const dateString = formattedDate.toLocaleDateString();
+      const timeString = formattedDate.toLocaleTimeString();
+
+      setDate(dateString + " - " + timeString);
+      setUser(answer.data.user);
+      setTitle(answer.data.topic.name);
+      setQuestions(question);
+      const arr = answer.data.answers.map((item, _) => {
         return item.answer;
       });
       setAnswers(arr);
 
       let count = 0;
-      question.data.map((element, index) => {
+      question?.map((element, index) => {
         if (element.correctAnswer == arr[index]) {
           count++;
         }
       });
       SetCountCorrect(count);
     };
-    getAnswers();
+    id && getAnswers();
   }, []);
   return (
     <>
@@ -65,14 +60,24 @@ function Result() {
               justify="space-between"
               gap={"large"}
             >
-              <Title level={4}>
-                Đúng: {countCorrect} | Sai : {questions.length - countCorrect} |
-                Tổng số câu: {questions.length}
-              </Title>
+              <Space direction="vertical">
+                <Title level={5}>{date}</Title>
+                <Title level={4}>
+                  Đúng: {countCorrect} | Sai : {questions.length - countCorrect}{" "}
+                  | Tổng số câu: {questions.length}
+                </Title>
+                <Space>
+                  <p>Chủ sở hữu:</p>
+                  <Tooltip placement="top" title={user.fullName}>
+                    <Avatar src={user.avatar||defaultImage}/>
+                  </Tooltip>
+                </Space>
+              </Space>
+
               <Progress
                 type="circle"
                 showInfo={true}
-                percent={(countCorrect / questions.length) * 100}
+                percent={((countCorrect / questions.length) * 100).toFixed()}
                 strokeColor="#34A853"
                 trailColor="#EA4335"
               ></Progress>
@@ -117,7 +122,7 @@ function Result() {
                               }
                               value={i}
                             >
-                              {value}
+                              {value.answer}
                             </Radio>
                           );
                         })}

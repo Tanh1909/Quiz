@@ -2,12 +2,16 @@ import { Alert, Button, Flex, Form, Input, Space, notification } from "antd";
 import { LockOutlined, UserOutlined, SmileOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { login } from "../../../services/auth";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginAction } from "../../../redux/actions";
+import { useState } from "react";
 function LoginForm({ cancel, api }) {
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
   const handleSubmit = async (value) => {
+    setLoading(true);
     const response = await login(value);
+    setLoading(false);
     if (response.code == 200) {
       dispatch(loginAction(response.data.userResponse));
       cancel && cancel(false);
@@ -53,7 +57,12 @@ function LoginForm({ cancel, api }) {
         </Form.Item>
 
         <Form.Item>
-          <Button style={{ width: "100%" }} type="primary" htmlType="submit">
+          <Button
+            loading={loading}
+            style={{ width: "100%" }}
+            type="primary"
+            htmlType="submit"
+          >
             Đăng nhập
           </Button>
         </Form.Item>

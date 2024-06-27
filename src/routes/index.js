@@ -13,6 +13,8 @@ import Topic from "../pages/Topic";
 import TopicDetail from "../pages/TopicDetail";
 import PrivateRoute from "../components/AllRoutes/PrivateRoutes/index";
 import AuthRoute from "../components/AllRoutes/AuthRoutes";
+import Profile from "../pages/Profile";
+import MyResults from "../pages/MyResults";
 const routes = [
   {
     path: "/",
@@ -41,7 +43,10 @@ const routes = [
               { path: "/answers", element: <Answers /> },
               { path: "/questions/:id", element: <Question /> },
               { path: "/result/:id", element: <Result /> },
-              { path: "/create-quetion", element: <Create /> },
+              { path: "/create-topic", element: <Create /> },
+              { path: "/edit-topic/:id", element: <Create /> },
+              { path: "/profile", element: <Profile /> },
+              { path: "/results", element: <MyResults /> },
             ],
           },
         ],

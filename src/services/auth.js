@@ -1,4 +1,4 @@
-import axios from "../utils/fetchData";
+import { axios } from "../utils/fetchData";
 const register = async ({ fullName, email, username, password }) => {
   try {
     const response = await axios.post("/auth/signup", {
@@ -18,9 +18,12 @@ const login = async ({ username, password }) => {
       username,
       password,
     });
+    localStorage.setItem(
+      "user",
+      JSON.stringify(response.data.data.userResponse)
+    );
+    localStorage.setItem("jwt", response.data.data.token);
     const data = response.data;
-    localStorage.setItem("jwt", data.data.token);
-    localStorage.setItem("user", JSON.stringify(data.data.userResponse));
     return data;
   } catch (error) {
     return error.response.data;

@@ -1,0 +1,25 @@
+.CardProfileBody {
+  height: 500px;
+  .Form {
+    &.disable {
+      input {
+        // font-size: 16px;
+        font-weight: bold;
+        background-color: white;
+        border: none;
+        padding-bottom: 5px;
+      }
+      .ant-radio-wrapper {
+        display: none;
+      }
+      .ant-radio {
+        // visibility: hidden;
+        display: none;
+      }
+      .ant-radio-wrapper-checked {
+        display: flex;
+        font-weight: bold;
+      }
+    }
+  }
+}

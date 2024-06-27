@@ -9,6 +9,7 @@ const authReducers = (
 ) => {
   switch (action.type) {
     case LOGIN: {
+      localStorage.setItem("user", JSON.stringify(action.payload));
       return {
         ...state,
         isLogin: true,
@@ -17,6 +18,7 @@ const authReducers = (
     }
     case LOGOUT: {
       localStorage.removeItem("jwt");
+      localStorage.removeItem("user");
       return {
         ...state,
         isLogin: false,

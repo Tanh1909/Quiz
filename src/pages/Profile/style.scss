@@ -1,0 +1,22 @@
+.Profile {
+  .right {
+    overflow-y: scroll;
+    height: 500px;
+    &::-webkit-scrollbar {
+      width: 10px;
+    }
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+      background: #f2766b;
+      border-radius: 10px;
+    }
+
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+      background: #ea4335;
+    }
+  }
+}

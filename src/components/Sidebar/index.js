@@ -17,7 +17,7 @@ function Sidebar() {
   const navigate = useNavigate();
   const items = [
     {
-      key: "/create-quetion",
+      key: "/create-topic",
       label: (
         <div className={style.createButton}>
           <PlusOutlined />

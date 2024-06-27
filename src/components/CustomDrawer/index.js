@@ -1,6 +1,7 @@
 import { Button, Radio, Space, Drawer, ConfigProvider, Menu } from "antd";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import defaultAvatar from "../../assets/images/defaultAvatar.png";
 import {
   MenuOutlined,
   DesktopOutlined,
@@ -13,9 +14,8 @@ import {
   UserAddOutlined,
 } from "@ant-design/icons";
 import "./style.scss";
-import { icons } from "antd/es/image/PreviewGroup";
 
-function CustomDrawer({ user, auth }) {
+function CustomDrawer({ user }) {
   const [open, setOpen] = useState(false);
   const endpoint = window.location.href.split(process.env.REACT_APP_URL)[1];
   const showDrawer = () => {
@@ -74,7 +74,7 @@ function CustomDrawer({ user, auth }) {
       <MenuOutlined style={{ fontSize: 20 }} onClick={() => setOpen(true)} />
       <Drawer
         width={"80%"}
-        title={auth.user && <TitleDrawer user={user} />}
+        title={user && <TitleDrawer user={user} />}
         placement={"left"}
         closable={false}
         onClose={onClose}
@@ -98,7 +98,7 @@ function CustomDrawer({ user, auth }) {
             }}
             defaultSelectedKeys={endpoint}
             theme="light"
-            items={auth.isLogin ? items : privateItems}
+            items={user ? items : privateItems}
           />
         </ConfigProvider>
       </Drawer>
@@ -120,12 +120,16 @@ function TitleDrawer({ user }) {
           style={{
             borderRadius: "50%",
             marginRight: 10,
+            objectFit: "cover",
           }}
           width={51}
           height={51}
-          src={user.avatar}
+          src={user.avatar || defaultAvatar}
         />
-        <div>{user.fullName}</div>
+        <div>{user.fullName || " "}</div>
+        <div style={{ fontSize: 14, color: "gray" }} className="username">
+          {"@" + user.username}
+        </div>
       </Space>
     </>
   );

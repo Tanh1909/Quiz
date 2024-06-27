@@ -18,9 +18,9 @@ import {
 import "./style.scss";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-function FormQuestion({ data }) {
+function FormQuestion({ questions, id }) {
   const [form] = Form.useForm();
-  const { questions } = data;
+
   const [showAnswer, setShowAnswer] = useState(false);
   const [exam, setExam] = useState(false);
   const navigate = useNavigate();
@@ -55,7 +55,7 @@ function FormQuestion({ data }) {
     setShowAnswer(!showAnswer);
   };
   const handlePlayMode = () => {
-    navigate(`/play-mode/${data.id}`);
+    navigate(`/play-mode/${id}`);
   };
   const onExam = () => {
     setShowAnswer(false);
@@ -91,7 +91,7 @@ function FormQuestion({ data }) {
               <Button onClick={handlePlayMode} className="btn primary">
                 Play Mode
               </Button>
-              <Button className="btn secondary" onClick={onExam}>
+              <Button type="default" className="btn secondary" onClick={onExam}>
                 Làm bài
               </Button>
             </Flex>
@@ -124,7 +124,7 @@ function FormQuestion({ data }) {
             form={form}
             onFinish={onFinish}
           >
-            {questions.map((item, index) => (
+            {questions?.map((item, index) => (
               <Card key={"question" + index} className="card">
                 <Form.Item
                   name={[index, "questionId"]}

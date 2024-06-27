@@ -1,6 +1,7 @@
 function timeAgo(createdDate) {
   const now = new Date();
   const created = new Date(createdDate);
+
   const diffInSeconds = Math.floor((now - created) / 1000);
 
   if (diffInSeconds < 60) {

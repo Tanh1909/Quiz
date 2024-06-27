@@ -2,10 +2,12 @@ import { Col, Flex, Progress, Row, notification, Statistic } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import "./style.scss";
 import { useEffect, useRef, useState } from "react";
-import axios from "axios";
 import correctAnswerAudio from "../../assets/audios/correct-answer.mp3";
 import wrongAnswerAudio from "../../assets/audios/button-sound.mp3";
 import { getQuestionByTopicId } from "../../services/question";
+import { createAnswer } from "../../services/answer";
+import { useDispatch } from "react-redux";
+import { logoutAction } from "../../redux/actions";
 const { Countdown } = Statistic;
 function PlayMode() {
   const { id } = useParams();
@@ -16,6 +18,7 @@ function PlayMode() {
   const [lock, setLock] = useState(false);
   const [time, setTime] = useState(10);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   //notify
   const [api, contextHolder] = notification.useNotification();
   const openNotificationWithIcon = (type, message) => {
@@ -30,9 +33,10 @@ function PlayMode() {
   };
   useEffect(() => {
     const fetchApi = async () => {
-      const questions = await getQuestionByTopicId(id);
-      setQuestions(questions);
-      setQuestion(questions[index]);
+      const response = await getQuestionByTopicId(id);
+      setQuestions(response.data);
+
+      setQuestion(response.data[index]);
     };
     fetchApi();
   }, []);
@@ -41,13 +45,17 @@ function PlayMode() {
     setQuestion(questions[index]);
     if (index == questions.length && index > 0) {
       const postQuestion = async () => {
-        const response = await axios.post(`http://localhost:8080/answers`, {
+        const response = await createAnswer({
           topicId: id,
           answers: answerObj,
         });
         navigate(`/result/${response.data.id}`);
       };
-      postQuestion();
+      try {
+        postQuestion();
+      } catch (e) {
+        dispatch(logoutAction());
+      }
     }
   }, [index]);
   const handleClick = (questionId, answer) => {
@@ -100,7 +108,7 @@ function PlayMode() {
             </Col>
           </Row>
           <Row className="items" gutter={[40, 20]}>
-            {question.answers.map((element, index) => {
+            {question?.answers?.map((element, index) => {
               return (
                 <>
                   <Col xs={24} sm={24} md={12} lg={12} xl={12}>
@@ -108,7 +116,7 @@ function PlayMode() {
                       onClick={() => handleClick(question.id, index)}
                       className="item"
                     >
-                      {element}
+                      {element.answer}
                     </p>
                   </Col>
                 </>
