@@ -16,9 +16,6 @@ function MyTopics({ setCountTopic, username }) {
     };
     fetchApi();
   }, []);
-  const handleClick = (id) => {
-    navigate(`/detail-topics/${id}`);
-  };
 
   return (
     <>
@@ -27,9 +24,9 @@ function MyTopics({ setCountTopic, username }) {
           {topics?.length > 0 ? (
             topics.map((item, index) => (
               <CustomCard
-                onClick={() => handleClick(item.id)}
+                setTopics={setTopics}
+                topics={topics}
                 topic={item}
-                user={{ fullName: "fda" }}
                 action
               />
             ))

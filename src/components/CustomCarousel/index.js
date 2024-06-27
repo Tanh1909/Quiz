@@ -1,10 +1,12 @@
-import { Card } from "antd";
+import { Avatar, Card, Empty, Flex, Space } from "antd";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import "./style.scss";
 import Meta from "antd/es/card/Meta";
-function CustomCarousel() {
-
+import defaultImage from "../../assets/images/defaultImageCard.webp";
+import defaultAvatar from "../../assets/images/defaultAvatar.png";
+import { timeAgo } from "../../utils/DateUtils";
+function CustomCarousel({ topics, navigate }) {
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
@@ -23,120 +25,91 @@ function CustomCarousel() {
     },
   };
   return (
-    <Carousel
-      draggable={false}
-      additionalTransfrom={0}
-      arrows
-      autoPlaySpeed={3000}
-      centerMode={false}
-      className=""
-      containerClass="container"
-      dotListClass=""
-      focusOnSelect={false}
-      infinite={false}
-      itemClass=""
-      keyBoardControl
-      minimumTouchDrag={80}
-      pauseOnHover
-      renderArrowsWhenDisabled={false}
-      renderButtonGroupOutside={false}
-      renderDotsOutside={false}
-      responsive={responsive}
-      rewind={false}
-      rewindWithAnimation={false}
-      rtl={false}
-      shouldResetAutoplay
-      showDots={false}
-      sliderClass=""
-      slidesToSlide={1}
-    >
-      <Card
-        style={{
-          width: 240,
-        }}
-        hoverable
-        cover={
-          <img
-            alt="example"
-            src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-          />
-        }
-      >
-        <Meta title="Europe Street beat" description="www.instagram.com" />
-      </Card>
+    <>
+      {topics?.length ? (
+        <Carousel
+          draggable={false}
+          additionalTransfrom={0}
+          arrows
+          autoPlaySpeed={3000}
+          centerMode={false}
+          className=""
+          containerClass="container"
+          dotListClass=""
+          focusOnSelect={false}
+          infinite={false}
+          itemClass=""
+          keyBoardControl
+          minimumTouchDrag={80}
+          pauseOnHover
+          renderArrowsWhenDisabled={false}
+          renderButtonGroupOutside={false}
+          renderDotsOutside={false}
+          responsive={responsive}
+          rewind={false}
+          rewindWithAnimation={false}
+          rtl={false}
+          shouldResetAutoplay
+          showDots={false}
+          sliderClass=""
+          slidesToSlide={1}
+        >
+          {topics.map((item, value) => {
+            return (
+              <Card
+                onClick={() => navigate(item.id)}
+                style={{
+                  width: 240,
+                }}
+                hoverable
+                cover={
+                  <img
+                    style={{
+                      objectFit: "cover",
+                    }}
+                    alt="example"
+                    width={300}
+                    height={180}
+                    src={item.image || defaultImage}
+                  />
+                }
+              >
+                <Meta
+                  title={item.name}
+                  description={
+                    <Description
+                      count={item.questions?.length}
+                      time={item.createdAt}
+                      user={item.user}
+                    />
+                  }
+                />
+              </Card>
+            );
+          })}
+        </Carousel>
+      ) : (
+        <Flex style={{ width: "100%" }} align="center" justify="center">
+          <Empty />
+        </Flex>
+      )}
+    </>
+  );
+}
 
-      <Card
-        style={{
-          width: 240,
-        }}
-        hoverable
-        cover={
-          <img
-            alt="example"
-            src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-          />
-        }
-      >
-        <Meta title="Europe Street beat" description="www.instagram.com" />
-      </Card>
-      <Card
-        style={{
-          width: 240,
-        }}
-        hoverable
-        cover={
-          <img
-            alt="example"
-            src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-          />
-        }
-      >
-        <Meta title="Europe Street beat" description="www.instagram.com" />
-      </Card>
-      <Card
-        style={{
-          width: 240,
-        }}
-        hoverable
-        cover={
-          <img
-            alt="example"
-            src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-          />
-        }
-      >
-        <Meta title="Europe Street beat" description="www.instagram.com" />
-      </Card>
-      <Card
-        style={{
-          width: 240,
-        }}
-        hoverable
-        cover={
-          <img
-            alt="example"
-            src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-          />
-        }
-      >
-        <Meta title="Europe Street beat" description="www.instagram.com" />
-      </Card>
-      <Card
-        style={{
-          width: 240,
-        }}
-        hoverable
-        cover={
-          <img
-            style={{ pointerEvents: "none" }}
-            alt="example"
-            src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-          />
-        }
-      >
-        <Meta title="Europe Street beat" description="www.instagram.com" />
-      </Card>
-    </Carousel>
+function Description({ count, time, user }) {
+  return (
+    <>
+      <Space direction="vertical">
+        <div>
+          {count} câu hỏi - {timeAgo(time)}
+        </div>
+        <Space>
+          <Avatar src={user.avatar || defaultAvatar} />
+          <div>{user.fullName}</div>
+        </Space>
+      </Space>
+    </>
   );
 }
 

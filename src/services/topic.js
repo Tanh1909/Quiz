@@ -25,6 +25,10 @@ const uploadImageTopic = async (id, image) => {
   });
   return response.data;
 };
+const findTopicsByCategory = async ({ category, page, size }) => {
+  const response = await axios.get(`/topics/category?category=${category}`);
+  return response.data;
+};
 const deleteTopicById = async (id) => {
   const response = await axios.delete(`/topics/${id}`);
   return response.data;
@@ -36,4 +40,5 @@ export {
   createTopic,
   uploadImageTopic,
   deleteTopicById,
+  findTopicsByCategory,
 };

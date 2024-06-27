@@ -1,26 +1,46 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import CustomCarousel from "../../components/CustomCarousel";
 import { Button, Flex } from "antd";
 import { useNavigate } from "react-router-dom";
 import MyResults from "../MyResults";
+import { getAllCategories } from "../../services/category";
 
 function Home() {
   const navigate = useNavigate();
-  useEffect(() => {}, []);
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const categoriesResponse = await getAllCategories();
+      setCategories(categoriesResponse.data.reverse());
+    };
+    fetchData();
+  }, []);
+  const handleClick = (id) => {
+    navigate(`detail-topics/${id}`);
+  };
+
   return (
     <>
       <div className="Home">
-        <div className="homeItem">
-          <Flex
-            style={{ padding: "0 20px" }}
-            justify="space-between"
-            align="center"
-          >
-            <strong>Toán học</strong>
-            <Button onClick={() => navigate("/more-topics/1")}>Xem thêm</Button>
-          </Flex>
-          <CustomCarousel />
-        </div>
+        {categories.map((item, index) => {
+          return (
+            <div className="homeItem">
+              <Flex
+                style={{ padding: "0 20px" }}
+                justify="space-between"
+                align="center"
+              >
+                <strong>{item.name}</strong>
+                <Button
+                  onClick={() => navigate(`/more-topics?category=${item.name}`)}
+                >
+                  Xem thêm
+                </Button>
+              </Flex>
+              <CustomCarousel topics={item.topics} navigate={handleClick} />
+            </div>
+          );
+        })}
       </div>
     </>
   );

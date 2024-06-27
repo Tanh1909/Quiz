@@ -17,7 +17,6 @@ import Profile from "../pages/Profile";
 import MyResults from "../pages/MyResults";
 const routes = [
   {
-    path: "/",
     element: <AuthRoute />,
     children: [
       {
@@ -26,19 +25,19 @@ const routes = [
         children: [
           { index: true, element: <Home /> },
           {
+            path: "/detail-topics/:id",
+            element: <TopicDetail />,
+          },
+          {
+            path: "/more-topics",
+            element: <MoreTopics />,
+          },
+          {
             element: <PrivateRoute />,
             children: [
               {
                 path: "/topics",
                 element: <Topic />,
-              },
-              {
-                path: "/more-topics/:id",
-                element: <MoreTopics />,
-              },
-              {
-                path: "/detail-topics/:id",
-                element: <TopicDetail />,
               },
               { path: "/answers", element: <Answers /> },
               { path: "/questions/:id", element: <Question /> },
@@ -52,12 +51,13 @@ const routes = [
         ],
       },
       {
-        path: "/play-mode/:id",
-        element: <PlayMode />,
-      },
-      {
-        path: "/2",
-        element: <Question />,
+        element: <PrivateRoute />,
+        children: [
+          {
+            path: "/play-mode/:id",
+            element: <PlayMode />,
+          },
+        ],
       },
       {
         path: "/*",

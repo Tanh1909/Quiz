@@ -8,20 +8,31 @@ import { timeAgo } from "../../utils/DateUtils";
 import "./style.scss";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-function CustomCard({ hoverable, topic, user, onClick, action }) {
+import defaultImage from "../../assets/images/defaultImageCard.webp";
+import { deleteTopicById } from "../../services/topic";
+import { useDispatch } from "react-redux";
+import { logoutAction } from "../../redux/actions";
+import Item from "antd/es/list/Item";
+function CustomCard({ hoverable, topic, action, topics, setTopics }) {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   //start delete handle
+
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const showPopconfirm = () => {
     setOpen(true);
   };
-  const handleDelete = () => {
+  const handleDelete = async () => {
     setConfirmLoading(true);
-    setTimeout(() => {
-      setOpen(false);
+    const response = await deleteTopicById(topic.id);
+    if (response.code == 200) {
+      setTopics(topics.filter((item, _) => item.id != topic.id));
       setConfirmLoading(false);
-    }, 2000);
+      handleCancel();
+    } else {
+      dispatch(logoutAction());
+    }
   };
   const handleCancel = () => {
     setOpen(false);
@@ -30,6 +41,9 @@ function CustomCard({ hoverable, topic, user, onClick, action }) {
   //start edit handle
   const handleEdit = (id) => {
     navigate(`/edit-topic/${id}`);
+  };
+  const handleNavigate = (id) => {
+    navigate(`/detail-topics/${id}`);
   };
 
   return (
@@ -66,8 +80,14 @@ function CustomCard({ hoverable, topic, user, onClick, action }) {
             ]
           }
         >
-          <Flex gap={20} onClick={onClick}>
-            <img className="img" src={topic?.image} />
+          <Flex gap={20} onClick={() => handleNavigate(topic.id)}>
+            <img
+              style={{
+                objectFit: "contain",
+              }}
+              className="img"
+              src={topic?.image || defaultImage}
+            />
             <Flex
               style={{ height: "100%" }}
               vertical
@@ -81,10 +101,14 @@ function CustomCard({ hoverable, topic, user, onClick, action }) {
                 <div>{topic?.questions?.length + " Câu hỏi"}</div>
               </Space>
               <Flex align="center" gap={10}>
-                {user && (
+                {topic.user && (
                   <>
-                    <img className="avatar" src={user.avatar} alt="avatar" />
-                    <div>{user.fullName}</div>
+                    <img
+                      className="avatar"
+                      src={topic.user.avatar}
+                      alt="avatar"
+                    />
+                    <div>{topic.user.fullName}</div>
                   </>
                 )}
                 <div>{timeAgo(topic?.createdAt)}</div>

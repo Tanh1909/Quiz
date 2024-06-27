@@ -141,7 +141,7 @@ function Create() {
     const image = value.file?.file;
     const request = {
       ...reqData,
-      category: "toán học",
+      category: value.category,
     };
 
     try {
@@ -193,7 +193,7 @@ function Create() {
           name={"category"}
           initialValue={categories[0]?.value}
         >
-          <Select options={categories} defaultValue={categories[0]?.value} />
+          <Select options={categories} />
         </Form.Item>
       </Modal>
 

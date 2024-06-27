@@ -4,4 +4,8 @@ const getCategoriesNonTopics = async () => {
   const response = await axios.get("/categories/nonTopics");
   return response.data;
 };
-export { getCategoriesNonTopics };
+const getAllCategories = async () => {
+  const response = await axios.get("/categories");
+  return response.data;
+};
+export { getCategoriesNonTopics, getAllCategories };

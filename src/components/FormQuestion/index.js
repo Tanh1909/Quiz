@@ -9,6 +9,7 @@ import {
   Space,
   Affix,
   Typography,
+  notification,
 } from "antd";
 import {
   EyeInvisibleOutlined,
@@ -18,15 +19,29 @@ import {
 import "./style.scss";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logoutAction } from "../../redux/actions";
+import { createAnswer } from "../../services/answer";
 function FormQuestion({ questions, id }) {
+  const dispatch = useDispatch();
+  const [api, contextHolder] = notification.useNotification();
   const [form] = Form.useForm();
-
   const [showAnswer, setShowAnswer] = useState(false);
   const [exam, setExam] = useState(false);
   const navigate = useNavigate();
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     console.log(values);
+    const reqValue = { ...values, topicId: id };
+    if (localStorage.getItem("jwt") && localStorage.getItem("user")) {
+      const response = await createAnswer(reqValue);
+      navigate(`/result/${response.data.id}`);
+    } else {
+      dispatch(logoutAction());
+      api["error"]({
+        message: "Vui lòng đăng nhập",
+      });
+    }
   };
 
   const onReset = () => {
@@ -37,16 +52,14 @@ function FormQuestion({ questions, id }) {
   };
   const handleShowAnswer = () => {
     if (!showAnswer) {
-      let initialValue = {};
-      for (let i = 0; i < questions.length; i++) {
-        initialValue = {
-          ...initialValue,
-          [i]: {
-            questionId: questions[i].id,
-            answer: questions[i].correctAnswer,
-          },
-        };
-      }
+      let initialValue = {
+        answers: questions?.map((item, index) => {
+          return {
+            topicId: item.id,
+            answer: item.correctAnswer,
+          };
+        }),
+      };
 
       onFill(initialValue);
     } else {
@@ -68,6 +81,7 @@ function FormQuestion({ questions, id }) {
 
   return (
     <>
+      {contextHolder}
       <ConfigProvider
         theme={{
           components: {
@@ -127,7 +141,7 @@ function FormQuestion({ questions, id }) {
             {questions?.map((item, index) => (
               <Card key={"question" + index} className="card">
                 <Form.Item
-                  name={[index, "questionId"]}
+                  name={["answers", index, "questionId"]}
                   initialValue={item.id}
                   hidden
                 >
@@ -135,7 +149,7 @@ function FormQuestion({ questions, id }) {
                 </Form.Item>
                 <Form.Item
                   className="item"
-                  name={[index, "answer"]}
+                  name={["answers", index, "answer"]}
                   label={<Header title={item.question} />}
                 >
                   <Radio.Group>
@@ -153,7 +167,7 @@ function FormQuestion({ questions, id }) {
 
             <Form.Item hidden={!exam}>
               <Button className="btnSubmit" htmlType="submit">
-                Submit
+                Nộp
               </Button>
             </Form.Item>
           </Form>

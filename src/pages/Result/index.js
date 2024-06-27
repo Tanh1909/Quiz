@@ -18,7 +18,7 @@ function Result() {
   useEffect(() => {
     const getAnswers = async () => {
       const answer = await findAnswerById(id);
-      console.log(answer);
+
       const question = answer.data.topic.questions;
 
       form.setFieldsValue({
@@ -47,6 +47,7 @@ function Result() {
     };
     id && getAnswers();
   }, []);
+
   return (
     <>
       <div className="result">
@@ -69,7 +70,7 @@ function Result() {
                 <Space>
                   <p>Chủ sở hữu:</p>
                   <Tooltip placement="top" title={user.fullName}>
-                    <Avatar src={user.avatar||defaultImage}/>
+                    <Avatar src={user.avatar || defaultImage} />
                   </Tooltip>
                 </Space>
               </Space>
@@ -93,7 +94,7 @@ function Result() {
                       <>
                         <Space>
                           <h2>{`Câu ${index + 1} : ${item.question}`}</h2>
-                          {item.correctAnswer === +answers[index] ? (
+                          {item.correctAnswer == answers[index] ? (
                             <Tag className="tag" color="#34A853">
                               Đúng
                             </Tag>
@@ -113,10 +114,10 @@ function Result() {
                           return (
                             <Radio
                               className={
-                                +answers[index] === i &&
-                                +answers[index] !== item.correctAnswer
+                                answers[index] == i &&
+                                answers[index] != item.correctAnswer
                                   ? "false"
-                                  : +item.correctAnswer === i
+                                  : item.correctAnswer == i
                                   ? "true"
                                   : ""
                               }

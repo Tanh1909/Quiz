@@ -19,6 +19,7 @@ function PlayMode() {
   const [time, setTime] = useState(10);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   //notify
   const [api, contextHolder] = notification.useNotification();
   const openNotificationWithIcon = (type, message) => {

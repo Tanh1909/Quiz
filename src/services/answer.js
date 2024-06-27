@@ -11,4 +11,8 @@ const findAnswerByUser = async (id) => {
   const response = await axios.get(`/answers/user/${id}`);
   return response.data;
 };
-export { createAnswer, findAnswerById, findAnswerByUser };
+const deleteAnswerById = async (id) => {
+  const response = await axios.delete(`/answers/${id}`);
+  return response.data;
+};
+export { createAnswer, findAnswerById, findAnswerByUser, deleteAnswerById };

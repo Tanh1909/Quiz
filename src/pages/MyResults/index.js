@@ -1,11 +1,15 @@
 import { Popconfirm, Progress, Space, Table } from "antd";
 import { useEffect, useState } from "react";
-import { findAnswerByUser } from "../../services/answer";
+import { deleteAnswerById, findAnswerByUser } from "../../services/answer";
 import { timeAgo } from "../../utils/DateUtils";
 import { useNavigate } from "react-router-dom";
+import { logoutAction } from "../../redux/actions";
+import { useDispatch } from "react-redux";
 
 function MyResults() {
   const [dataSource, setDataSource] = useState([]);
+  const [category, setCategory] = useState();
+  const [refresh, setRefresh] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,10 +27,19 @@ function MyResults() {
           category: item.topic.category,
           topic: item.topic.name,
           count: percent,
-          time: timeAgo(item.createdAt),
+          time: item.createdAt,
         };
       });
-      setDataSource(data);
+      const categoryArr = [...new Set(data?.map((item, _) => item.category))];
+      setCategory(
+        categoryArr?.map((item, _) => {
+          return {
+            text: item,
+            value: item,
+          };
+        })
+      );
+      setDataSource(data?.reverse());
     };
     fetchData();
     const countCorrect = (questions, answers) => {
@@ -41,12 +54,15 @@ function MyResults() {
       });
       return count;
     };
-  }, []);
+  }, [refresh]);
+
   const columns = [
     {
       title: "Chủ đề",
       dataIndex: "category",
       key: "category",
+      filters: category,
+      onFilter: (value, record) => record.category.indexOf(value) === 0,
     },
     {
       title: "Tên Quizz",
@@ -69,11 +85,22 @@ function MyResults() {
           />
         );
       },
+      sorter: (a, b) => a.count - b.count,
+      showSorterTooltip: false,
     },
     {
       title: "Thời gian",
       dataIndex: "time",
       key: "time",
+      sorter: (a, b) => {
+        a = new Date(a.time).getTime();
+        b = new Date(b.time).getTime();
+        return a - b;
+      },
+      showSorterTooltip: false,
+      render: (text, record, _) => {
+        return timeAgo(text);
+      },
     },
     {
       title: "Hành động",
@@ -87,7 +114,7 @@ function MyResults() {
           >
             Xem chi tiết
           </a>
-          <HandleDelete />
+          <HandleDelete id={record.key} setRefresh={setRefresh} />
         </Space>
       ),
     },
@@ -95,12 +122,19 @@ function MyResults() {
 
   return (
     <>
-      <Table dataSource={dataSource} columns={columns} />
+      <Table
+        pagination={{
+          defaultPageSize: 5,
+        }}
+        dataSource={dataSource}
+        columns={columns}
+      />
     </>
   );
 }
-function HandleDelete() {
+function HandleDelete({ id, setRefresh }) {
   //start delete handle
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const showPopconfirm = () => {
@@ -108,10 +142,18 @@ function HandleDelete() {
   };
   const handleDelete = () => {
     setConfirmLoading(true);
-    setTimeout(() => {
-      setOpen(false);
-      setConfirmLoading(false);
-    }, 2000);
+    const fetchData = async () => {
+      const response = await deleteAnswerById(id);
+      if (response.code == 200) {
+        setOpen(false);
+        setConfirmLoading(false);
+        handleCancel();
+        setRefresh((state) => !state);
+      } else {
+        dispatch(logoutAction());
+      }
+    };
+    fetchData();
   };
   const handleCancel = () => {
     setOpen(false);
