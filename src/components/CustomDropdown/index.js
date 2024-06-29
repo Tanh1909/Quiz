@@ -14,20 +14,38 @@ function CustomDropdown({ user }) {
     dispatch(logoutAction());
   };
   const navigateProfile = () => {
-    navigate(`profile`);
+    navigate(`/profile`);
+  };
+  const navigateMyTopics = () => {
+    navigate(`/my-topics`);
+  };
+  const navigateHome = () => {
+    navigate(`/`);
   };
 
   const items = [
     {
-      label: <div onClick={navigateProfile}>Trang cá nhân</div>,
+      label: (
+        <div className={clxs(style.item)} onClick={navigateProfile}>
+          Trang cá nhân
+        </div>
+      ),
       key: "0",
     },
     {
-      label: "Các Quizz đã tạo",
+      label: (
+        <div className={clxs(style.item)} onClick={navigateMyTopics}>
+          Các Quizz đã tạo
+        </div>
+      ),
       key: "1",
     },
     {
-      label: <div onClick={handleLogout}>Đăng xuất</div>,
+      label: (
+        <div className={clxs(style.item)} onClick={handleLogout}>
+          Đăng xuất
+        </div>
+      ),
       key: "3",
     },
   ];
@@ -67,7 +85,7 @@ function CustomDropdown({ user }) {
                 </Flex>
                 <hr />
                 {arr.map((item, index) => {
-                  return <div className={clxs(style.item)}>{item.label}</div>;
+                  return item.label;
                 })}
               </div>
             </>

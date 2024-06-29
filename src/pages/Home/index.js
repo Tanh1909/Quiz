@@ -4,6 +4,8 @@ import { Button, Flex } from "antd";
 import { useNavigate } from "react-router-dom";
 import MyResults from "../MyResults";
 import { getAllCategories } from "../../services/category";
+import MyTopics from "../Profile/MyTopics";
+import Feedback from "../Feedback";
 
 function Home() {
   const navigate = useNavigate();
@@ -21,6 +23,7 @@ function Home() {
 
   return (
     <>
+      
       <div className="Home">
         {categories.map((item, index) => {
           return (

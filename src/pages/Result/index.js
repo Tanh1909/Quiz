@@ -6,6 +6,8 @@ import Title from "antd/es/typography/Title";
 import { findAnswerById } from "../../services/answer";
 import { getTopicById } from "../../services/topic";
 import defaultImage from "../../assets/images/defaultAvatar.png";
+import { useDispatch } from "react-redux";
+import { logoutAction } from "../../redux/actions";
 function Result() {
   const [date, setDate] = useState();
   const [countCorrect, SetCountCorrect] = useState(0);
@@ -15,35 +17,39 @@ function Result() {
   const [user, setUser] = useState({});
   const { id } = useParams();
   const [form] = Form.useForm();
+  const dispatch = useDispatch();
   useEffect(() => {
     const getAnswers = async () => {
       const answer = await findAnswerById(id);
+      if (answer) {
+        const question = answer.data.topic.questions;
 
-      const question = answer.data.topic.questions;
+        form.setFieldsValue({
+          answers: answer.data.answers,
+        });
+        const formattedDate = new Date(answer.data.createdAt);
+        const dateString = formattedDate.toLocaleDateString();
+        const timeString = formattedDate.toLocaleTimeString();
 
-      form.setFieldsValue({
-        answers: answer.data.answers,
-      });
-      const formattedDate = new Date(answer.data.createdAt);
-      const dateString = formattedDate.toLocaleDateString();
-      const timeString = formattedDate.toLocaleTimeString();
+        setDate(dateString + " - " + timeString);
+        setUser(answer.data.user);
+        setTitle(answer.data.topic.name);
+        setQuestions(question);
+        const arr = answer.data.answers.map((item, _) => {
+          return item.answer;
+        });
+        setAnswers(arr);
 
-      setDate(dateString + " - " + timeString);
-      setUser(answer.data.user);
-      setTitle(answer.data.topic.name);
-      setQuestions(question);
-      const arr = answer.data.answers.map((item, _) => {
-        return item.answer;
-      });
-      setAnswers(arr);
-
-      let count = 0;
-      question?.map((element, index) => {
-        if (element.correctAnswer == arr[index]) {
-          count++;
-        }
-      });
-      SetCountCorrect(count);
+        let count = 0;
+        question?.map((element, index) => {
+          if (element.correctAnswer == arr[index]) {
+            count++;
+          }
+        });
+        SetCountCorrect(count);
+      } else {
+        dispatch(logoutAction());
+      }
     };
     id && getAnswers();
   }, []);

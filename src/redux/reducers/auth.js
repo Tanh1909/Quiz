@@ -1,5 +1,5 @@
+import { useNavigate } from "react-router-dom";
 import { LOGIN, LOGOUT } from "../actions";
-
 const authReducers = (
   state = {
     user: null,
@@ -19,6 +19,8 @@ const authReducers = (
     case LOGOUT: {
       localStorage.removeItem("jwt");
       localStorage.removeItem("user");
+      localStorage.removeItem("refreshToken");
+
       return {
         ...state,
         isLogin: false,

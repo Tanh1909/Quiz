@@ -1,4 +1,4 @@
-import { Card, Flex, Space } from "antd";
+import { Card, Empty, Flex, Space } from "antd";
 import "./style.scss";
 import CustomCard from "../../components/CustomCard";
 import { useEffect, useState } from "react";
@@ -37,8 +37,11 @@ function MoreTopics() {
             </strong>
           </Card>
         </Flex>
-        {topics &&
-          topics.map((item, index) => <CustomCard hoverable topic={item} />)}
+        {topics?.length > 0 ? (
+          topics.map((item, index) => <CustomCard hoverable topic={item} />)
+        ) : (
+          <Empty />
+        )}
       </Flex>
     </>
   );

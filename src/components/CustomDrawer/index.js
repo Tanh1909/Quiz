@@ -14,8 +14,13 @@ import {
   UserAddOutlined,
 } from "@ant-design/icons";
 import "./style.scss";
+import { useDispatch } from "react-redux";
+import { logout } from "../../services/auth";
+import { logoutAction } from "../../redux/actions/auth";
 
-function CustomDrawer({ user }) {
+function CustomDrawer({ setIsModalOpen, setLogin, user }) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const endpoint = window.location.href.split(process.env.REACT_APP_URL)[1];
   const showDrawer = () => {
@@ -24,12 +29,25 @@ function CustomDrawer({ user }) {
   const onClose = () => {
     setOpen(false);
   };
-  const navigate = useNavigate();
+  const handleLogout = () => {
+    logout();
+    dispatch(logoutAction());
+  };
+  const navigateProfile = () => {
+    navigate(`/profile`);
+  };
+  const navigateMyTopics = () => {
+    navigate(`/my-topics`);
+  };
+  const navigateHome = () => {
+    navigate(`/`);
+  };
+
   const items = [
     {
       key: "/profile",
       icon: <UserOutlined />,
-      label: "Trang Cá Nhân",
+      label: "Trang cá nhân",
     },
     {
       key: "/history",
@@ -37,7 +55,7 @@ function CustomDrawer({ user }) {
       label: "Xem lại lịch sử làm bài",
     },
     {
-      key: "/create-quetion",
+      key: "/create-topic",
       icon: <PlusOutlined />,
       label: "Tạo Quizz",
     },
@@ -47,12 +65,12 @@ function CustomDrawer({ user }) {
       label: "Trang chủ",
     },
     {
-      key: "2",
+      key: "/my-topics",
       icon: <DesktopOutlined />,
       label: "Các Quizz đã tạo",
     },
     {
-      key: "3",
+      key: "/logout",
       icon: <LogoutOutlined />,
       label: "Đăng xuất",
     },
@@ -92,10 +110,49 @@ function CustomDrawer({ user }) {
           }}
         >
           <Menu
-            className="CustomDrawer"
             onClick={({ key }) => {
-              navigate(key);
+              onClose();
+              switch (key) {
+                case "/profile": {
+                  navigateProfile();
+                  break;
+                }
+                case "/my-topics": {
+                  navigateMyTopics();
+                  break;
+                }
+                case "/create-topic": {
+                  navigate("/create-topic");
+                  break;
+                }
+                case "/history": {
+                  navigate("/results");
+                  break;
+                }
+                case "/logout": {
+                  handleLogout();
+                  break;
+                }
+                case "/": {
+                  navigate("/");
+                  break;
+                }
+                case "/login": {
+                  setIsModalOpen(true);
+                  setLogin(true);
+                  break;
+                }
+                case "/register": {
+                  setIsModalOpen(true);
+                  setLogin(false);
+                  break;
+                }
+
+                default:
+                  break;
+              }
             }}
+            className="CustomDrawer"
             defaultSelectedKeys={endpoint}
             theme="light"
             items={user ? items : privateItems}

@@ -11,9 +11,11 @@ const getProfile = async () => {
 };
 
 const patchUser = async ({ fullName, email, avatar, dateOfBirth, gender }) => {
-  const data = { fullName, email, avatar, dateOfBirth, gender };
-  const response = await patch(`users`, data);
-  store.dispatch(loginAction(response.data));
-  return response;
+  try {
+    const data = { fullName, email, avatar, dateOfBirth, gender };
+    const response = await patch(`users`, data);
+    store.dispatch(loginAction(response.data));
+    return response;
+  } catch (error) {}
 };
 export { patchUser, getProfile };

@@ -1,37 +1,64 @@
 import { axios } from "../utils/fetchData";
 
 const getAllTopic = async () => {
-  const response = await axios.get("topics");
-  console.log(response);
-  return response.data;
+  try {
+    const response = await axios.get("topics");
+    console.log(response);
+    return response.data;
+  } catch (error) {}
 };
 const getTopicById = async (id) => {
-  const response = await axios.get(`/topics/${id}`);
-  return response.data;
+  try {
+    const response = await axios.get(`/topics/${id}`);
+    return response.data;
+  } catch (error) {}
 };
 const getTopicByUser = async (username) => {
-  const response = await axios.get(`/topics/user?username=${username}`);
-  return response.data;
+  try {
+    const response = await axios.get(`/topics/user?username=${username}`);
+    return response.data;
+  } catch (error) {}
 };
 const createTopic = async (data) => {
-  const response = await axios.post("/topics", data);
-  return response.data;
+  try {
+    const response = await axios.post("/topics", data);
+    return response.data;
+  } catch (error) {}
 };
 const uploadImageTopic = async (id, image) => {
-  const response = await axios.post(`/topics/${id}/image`, image, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
-  return response.data;
+  try {
+    const response = await axios.post(`/topics/${id}/image`, image, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  } catch (error) {}
 };
 const findTopicsByCategory = async ({ category, page, size }) => {
-  const response = await axios.get(`/topics/category?category=${category}`);
-  return response.data;
+  try {
+    const response = await axios.get(`/topics/category?category=${category}`);
+    return response.data;
+  } catch (error) {}
+};
+const findTopicsByName = async ({ name, page, size }) => {
+  try {
+    let url = `/topics/name?name=${name}`;
+    if (page || page == 0) {
+      url += `&page=${page}`;
+    }
+    if (size || size == 0) {
+      url += `&size=${size}`;
+    }
+    const response = await axios.get(url);
+    return response.data;
+  } catch (error) {}
 };
 const deleteTopicById = async (id) => {
-  const response = await axios.delete(`/topics/${id}`);
-  return response.data;
+  try {
+    const response = await axios.delete(`/topics/${id}`);
+    return response.data;
+  } catch (error) {}
 };
 export {
   getAllTopic,
@@ -40,5 +67,6 @@ export {
   createTopic,
   uploadImageTopic,
   deleteTopicById,
+  findTopicsByName,
   findTopicsByCategory,
 };

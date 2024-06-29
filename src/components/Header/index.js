@@ -1,16 +1,15 @@
 import { Button, Dropdown, Flex, Space } from "antd";
 import "./style.scss";
-import Search from "antd/es/transfer/search";
 import { SearchOutlined } from "@ant-design/icons";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import CustomDropdown from "../CustomDropdown";
 import CustomDrawer from "../CustomDrawer";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Login from "../../pages/Login";
-import { LOGIN, loginAction } from "../../redux/actions";
-import { getUserById } from "../../services/user";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
+import SearchInput from "./SearchInput";
+import Search from "antd/es/transfer/search";
 function Header() {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,29 +21,37 @@ function Header() {
     <>
       <Flex align="center" justify="space-between" className="Header">
         <div className="drawer">
-          <CustomDrawer user={user} auth={isLogin} />
+          <CustomDrawer
+            setIsModalOpen={setIsModalOpen}
+            setLogin={setLogin}
+            user={user}
+            auth={isLogin}
+          />
         </div>
         <div className="search">
           <SearchOutlined style={{ fontSize: 20 }} />
         </div>
         <div className="left">
-          <Space size={"middle"}>
-            <img
-              style={{
-                objectFit: "cover",
-                borderRadius: 5,
-              }}
-              width={48}
-              height={38}
-              src={logo}
-            />
-            <div>
-              <strong>QUIZZ</strong>
-            </div>
-          </Space>
+          <Link style={{ color: "black" }} to={"/"}>
+            <Space size={"middle"}>
+              <img
+                style={{
+                  objectFit: "cover",
+                  borderRadius: 5,
+                }}
+                width={48}
+                height={38}
+                src={logo}
+              />
+              <div>
+                <strong>QUIZZ</strong>
+              </div>
+            </Space>
+          </Link>
         </div>
         <div className="middle">
-          <Search placeholder="nhập tên topic" allowClear />
+          {/* <Search placeholder="nhập tên topic" allowClear /> */}
+          <SearchInput />
         </div>
         {isLogin ? (
           <Space size={"large"} align="center" className="right">

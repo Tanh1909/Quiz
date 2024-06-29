@@ -15,6 +15,8 @@ import PrivateRoute from "../components/AllRoutes/PrivateRoutes/index";
 import AuthRoute from "../components/AllRoutes/AuthRoutes";
 import Profile from "../pages/Profile";
 import MyResults from "../pages/MyResults";
+import MyTopicsPage from "../MyTopicsPage";
+import Feedback from "../pages/Feedback";
 const routes = [
   {
     element: <AuthRoute />,
@@ -29,6 +31,10 @@ const routes = [
             element: <TopicDetail />,
           },
           {
+            path: "/feedback",
+            element: <Feedback />,
+          },
+          {
             path: "/more-topics",
             element: <MoreTopics />,
           },
@@ -39,6 +45,11 @@ const routes = [
                 path: "/topics",
                 element: <Topic />,
               },
+              {
+                path: "/my-topics",
+                element: <MyTopicsPage />,
+              },
+
               { path: "/answers", element: <Answers /> },
               { path: "/questions/:id", element: <Question /> },
               { path: "/result/:id", element: <Result /> },

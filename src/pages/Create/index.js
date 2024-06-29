@@ -56,20 +56,24 @@ function Create() {
   useEffect(() => {
     const fetchData = async (id) => {
       const topicResponse = await getTopicById(id);
-      const topic = topicResponse.data;
-      const formValue = {
-        name: topic.name,
-        questions: topic.questions?.map((item, _) => {
-          return {
-            question: item.question,
-            correctAnswer: item.correctAnswer,
-            answers: item.answers?.map((subItem, _) => {
-              return subItem.answer;
-            }),
-          };
-        }),
-      };
-      form.setFieldsValue(formValue);
+      if (topicResponse) {
+        const topic = topicResponse.data;
+        const formValue = {
+          name: topic.name,
+          questions: topic.questions?.map((item, _) => {
+            return {
+              question: item.question,
+              correctAnswer: item.correctAnswer,
+              answers: item.answers?.map((subItem, _) => {
+                return subItem.answer;
+              }),
+            };
+          }),
+        };
+        form.setFieldsValue(formValue);
+      } else {
+        dispatch(logoutAction());
+      }
     };
     if (id) {
       fetchData(id);
@@ -117,7 +121,11 @@ function Create() {
       });
       setCategories(categoriesDTO);
     };
-    fetchData();
+    try {
+      fetchData();
+    } catch (error) {
+      dispatch(logoutAction());
+    }
   }, [render, scroll]);
   const handleRadio = (e) => {
     const pathName = ["questions", e.target.name];

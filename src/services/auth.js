@@ -18,11 +18,13 @@ const login = async ({ username, password }) => {
       username,
       password,
     });
+
     localStorage.setItem(
       "user",
       JSON.stringify(response.data.data.userResponse)
     );
     localStorage.setItem("jwt", response.data.data.token);
+    localStorage.setItem("refreshToken", response.data.data.refreshToken);
     const data = response.data;
     return data;
   } catch (error) {

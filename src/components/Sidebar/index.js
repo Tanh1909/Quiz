@@ -1,6 +1,6 @@
 import {
   ContainerOutlined,
-  DesktopOutlined,
+  FileUnknownOutlined,
   HomeOutlined,
   PlusOutlined,
 } from "@ant-design/icons";
@@ -30,14 +30,14 @@ function Sidebar() {
       label: "Trang chủ",
     },
     {
-      key: "2",
-      icon: <DesktopOutlined />,
-      label: "Option 2",
+      key: "/feedback",
+      icon: <ContainerOutlined />,
+      label: "Góp ý",
     },
     {
       key: "3",
-      icon: <ContainerOutlined />,
-      label: "Option 3",
+      icon: <FileUnknownOutlined />,
+      label: "404",
     },
   ];
   return (

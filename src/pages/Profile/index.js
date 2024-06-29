@@ -6,18 +6,25 @@ import { useEffect, useState } from "react";
 import { getProfile, getUserById } from "../../services/user";
 
 import MyTopics from "./MyTopics";
+import { useDispatch } from "react-redux";
+import { logoutAction } from "../../redux/actions";
 
 function Profile() {
-  
   const [user, setUser] = useState(null);
   const [countTopic, setCountTopic] = useState(0);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchApi = async () => {
       const userResponse = await getProfile();
       setUser(userResponse?.data);
     };
-    fetchApi();
+    try {
+      fetchApi();
+    } catch (error) {
+      dispatch(logoutAction());
+    }
   }, []);
 
   const [update, setUpdate] = useState(false);

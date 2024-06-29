@@ -35,9 +35,12 @@ function FormQuestion({ questions, id }) {
     const reqValue = { ...values, topicId: id };
     if (localStorage.getItem("jwt") && localStorage.getItem("user")) {
       const response = await createAnswer(reqValue);
-      navigate(`/result/${response.data.id}`);
+      if (response) {
+        navigate(`/result/${response.data.id}`);
+      } else {
+        dispatch(logoutAction());
+      }
     } else {
-      dispatch(logoutAction());
       api["error"]({
         message: "Vui lòng đăng nhập",
       });

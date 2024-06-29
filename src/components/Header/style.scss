@@ -19,12 +19,24 @@
   .left {
   }
   .middle {
-    .ant-input-affix-wrapper {
+    .ant-select {
+      margin-left: 150px;
       width: 420px;
       height: 40px;
       border: 2px solid #e8e8e8;
       border-radius: 20px;
+      // overflow: hidden;
+
+      .ant-select-selector {
+        border: 1px solid #e8e8e8;
+        border-radius: 20px;
+        padding-left: 20px;
+        .ant-select-selection-search {
+          padding-left: 10px;
+        }
+      }
     }
+
     .ant-input-prefix {
       font-size: 20px;
       margin-right: 5px;

@@ -60,13 +60,14 @@ function PlayMode() {
     }
   }, [index]);
   const handleClick = (questionId, answer) => {
-    setAnswerObj([...answerObj, { questionId: question.id, answer: answer }]);
     if (answer == undefined) {
+      setAnswerObj([...answerObj, { questionId: question.id, answer: answer }]);
       openNotificationWithIcon("error", "Time out!");
       document.getElementById("wrongAudio").play();
       return;
     }
     if (!lock) {
+      setAnswerObj([...answerObj, { questionId: question.id, answer: answer }]);
       if (answer == question.correctAnswer) {
         document.getElementById("correctAudio").play();
         openNotificationWithIcon("success", "correct answer");

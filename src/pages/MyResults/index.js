@@ -10,11 +10,17 @@ function MyResults() {
   const [dataSource, setDataSource] = useState([]);
   const [category, setCategory] = useState();
   const [refresh, setRefresh] = useState(false);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       const user = JSON.parse(localStorage.getItem("user"));
+      if (!user) {
+        dispatch(logoutAction());
+
+        return;
+      }
       const response = await findAnswerByUser(user.id);
       const topics = response.data;
 
@@ -41,7 +47,13 @@ function MyResults() {
       );
       setDataSource(data?.reverse());
     };
-    fetchData();
+    try {
+      console.log("fetch data");
+      fetchData();
+    } catch (error) {
+      console.log(error);
+      dispatch(logoutAction());
+    }
     const countCorrect = (questions, answers) => {
       let count = 0;
       questions?.map((item, index) => {
