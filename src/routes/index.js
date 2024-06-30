@@ -15,8 +15,9 @@ import PrivateRoute from "../components/AllRoutes/PrivateRoutes/index";
 import AuthRoute from "../components/AllRoutes/AuthRoutes";
 import Profile from "../pages/Profile";
 import MyResults from "../pages/MyResults";
-import MyTopicsPage from "../MyTopicsPage";
+import MyTopicsPage from "../pages/MyTopicsPage";
 import Feedback from "../pages/Feedback";
+import LoginLayout from "../layouts/LoginLayout";
 const routes = [
   {
     element: <AuthRoute />,
@@ -70,6 +71,7 @@ const routes = [
           },
         ],
       },
+
       {
         path: "/*",
         element: <NotFound />,

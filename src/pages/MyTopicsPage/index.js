@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import MyTopics from "../pages/Profile/MyTopics";
+import MyTopics from "../Profile/MyTopics";
 
 function MyTopicsPage() {
   const selector = useSelector((state) => state.authReducers);

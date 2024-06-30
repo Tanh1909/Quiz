@@ -34,4 +34,35 @@ const login = async ({ username, password }) => {
 const logout = () => {
   localStorage.clear();
 };
-export { register, login, logout };
+const forgotPassword = async (email) => {
+  try {
+    const response = await axios.post("/auth/forgot-password?email=" + email);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+const confirmOTP = async ({ email, otp }) => {
+  try {
+    const response = await axios.post(
+      `/auth/confirm-otp?email=${email}&otp=${otp}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+const changePassword = async (newPassword) => {
+  try {
+    const response = await axios.post(
+      "/auth/change-password?newPassword=" + newPassword
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+export { register, login, logout, forgotPassword, confirmOTP, changePassword };
