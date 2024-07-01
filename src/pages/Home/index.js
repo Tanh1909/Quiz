@@ -6,6 +6,8 @@ import MyResults from "../MyResults";
 import { getAllCategories } from "../../services/category";
 import MyTopics from "../Profile/MyTopics";
 import Feedback from "../Feedback";
+import { LoadingOutlined } from "@ant-design/icons";
+import CustomSpin from "../../components/CustomSpin";
 
 function Home() {
   const navigate = useNavigate();
@@ -27,28 +29,9 @@ function Home() {
   return (
     <>
       {loadingPage ? (
-        <>
-          <Space direction="vertical">
-            {[1, 2, 3].map(() => {
-              return (
-                <>
-                  <Skeleton.Input active />
-                  <Space size={"large"}>
-                    {[1, 2, 3, 4, 5].map(() => (
-                      <Skeleton.Image
-                        active
-                        style={{
-                          width: 300,
-                          height: 200,
-                        }}
-                      />
-                    ))}
-                  </Space>
-                </>
-              );
-            })}
-          </Space>
-        </>
+        <Flex justify="center">
+          <CustomSpin />
+        </Flex>
       ) : (
         <div className="Home">
           {categories.map((item, index) => {

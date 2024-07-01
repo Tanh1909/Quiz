@@ -23,7 +23,7 @@ function CardProfileHeader({ user, setUpdate, count }) {
                   <br />
                   <span>{"@" + user.username}</span>
                 </div>
-                <div>Tham gia vào ngày ...</div>
+                {/* <div>Tham gia vào ngày ...</div> */}
                 <div>Sở hữu {count} quizz</div>
               </Space>
             </Space>

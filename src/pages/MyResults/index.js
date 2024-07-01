@@ -1,12 +1,14 @@
-import { Popconfirm, Progress, Space, Table } from "antd";
+import { Flex, Popconfirm, Progress, Space, Spin, Table } from "antd";
 import { useEffect, useState } from "react";
 import { deleteAnswerById, findAnswerByUser } from "../../services/answer";
 import { timeAgo } from "../../utils/DateUtils";
 import { useNavigate } from "react-router-dom";
 import { logoutAction } from "../../redux/actions";
 import { useDispatch } from "react-redux";
+import CustomSpin from "../../components/CustomSpin";
 
 function MyResults() {
+  const [loadingPage, setLoadingPage] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const [category, setCategory] = useState();
   const [refresh, setRefresh] = useState(false);
@@ -15,6 +17,7 @@ function MyResults() {
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoadingPage(true);
       const user = JSON.parse(localStorage.getItem("user"));
       if (!user) {
         dispatch(logoutAction());
@@ -46,6 +49,7 @@ function MyResults() {
         })
       );
       setDataSource(data?.reverse());
+      setLoadingPage(false);
     };
     try {
       console.log("fetch data");
@@ -134,13 +138,17 @@ function MyResults() {
 
   return (
     <>
-      <Table
-        pagination={{
-          defaultPageSize: 5,
-        }}
-        dataSource={dataSource}
-        columns={columns}
-      />
+      {loadingPage ? (
+        <CustomSpin />
+      ) : (
+        <Table
+          pagination={{
+            defaultPageSize: 5,
+          }}
+          dataSource={dataSource}
+          columns={columns}
+        />
+      )}
     </>
   );
 }

@@ -72,6 +72,6 @@ const patch = async (path, data) => {
   const response = await instance.patch(path, data, {
     headers: { "Content-Type": "multipart/form-data" },
   });
-  return response.data;
+  return response?.data;
 };
 export { instance as axios, patch };

@@ -1,6 +1,17 @@
-import { Flex, Form, Radio, Space, Tag, Progress, Avatar, Tooltip } from "antd";
+import {
+  Flex,
+  Form,
+  Radio,
+  Space,
+  Tag,
+  Progress,
+  Avatar,
+  Tooltip,
+  Spin,
+} from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { LoadingOutlined } from "@ant-design/icons";
 import "./style.scss";
 import Title from "antd/es/typography/Title";
 import { findAnswerById } from "../../services/answer";
@@ -8,7 +19,9 @@ import { getTopicById } from "../../services/topic";
 import defaultImage from "../../assets/images/defaultAvatar.png";
 import { useDispatch } from "react-redux";
 import { logoutAction } from "../../redux/actions";
+import CustomSpin from "../../components/CustomSpin";
 function Result() {
+  const [loadingPage, setLoadingPage] = useState(false);
   const [date, setDate] = useState();
   const [countCorrect, SetCountCorrect] = useState(0);
   const [questions, setQuestions] = useState([]);
@@ -20,6 +33,7 @@ function Result() {
   const dispatch = useDispatch();
   useEffect(() => {
     const getAnswers = async () => {
+      setLoadingPage(true);
       const answer = await findAnswerById(id);
       if (answer) {
         const question = answer.data.topic.questions;
@@ -50,98 +64,104 @@ function Result() {
       } else {
         dispatch(logoutAction());
       }
+      setLoadingPage(false);
     };
     id && getAnswers();
   }, []);
 
   return (
     <>
-      <div className="result">
-        <Flex gap={"small"} vertical className="container">
-          <div className="header">
-            <h1>Kết Quả Chủ đề: {title} </h1>
+      {loadingPage ? (
+        <CustomSpin />
+      ) : (
+        <div className="result">
+          <Flex gap={"small"} vertical className="container">
+            <div className="header">
+              <h1>Kết Quả Chủ đề: {title} </h1>
 
-            <Flex
-              style={{ width: "100%" }}
-              align="center"
-              justify="space-between"
-              gap={"large"}
-            >
-              <Space direction="vertical">
-                <Title level={5}>{date}</Title>
-                <Title level={4}>
-                  Đúng: {countCorrect} | Sai : {questions.length - countCorrect}{" "}
-                  | Tổng số câu: {questions.length}
-                </Title>
-                <Space>
-                  <p>Chủ sở hữu:</p>
-                  <Tooltip placement="top" title={user.fullName}>
-                    <Avatar src={user.avatar || defaultImage} />
-                  </Tooltip>
+              <Flex
+                style={{ width: "100%" }}
+                align="center"
+                justify="space-between"
+                gap={"large"}
+              >
+                <Space direction="vertical">
+                  <Title level={5}>{date}</Title>
+                  <Title level={4}>
+                    Đúng: {countCorrect} | Sai :{" "}
+                    {questions.length - countCorrect} | Tổng số câu:{" "}
+                    {questions.length}
+                  </Title>
+                  <Space>
+                    <p>Chủ sở hữu:</p>
+                    <Tooltip placement="top" title={user.fullName}>
+                      <Avatar src={user.avatar || defaultImage} />
+                    </Tooltip>
+                  </Space>
                 </Space>
-              </Space>
 
-              <Progress
-                type="circle"
-                showInfo={true}
-                percent={((countCorrect / questions.length) * 100).toFixed()}
-                strokeColor="#34A853"
-                trailColor="#EA4335"
-              ></Progress>
-            </Flex>
-          </div>
-          <Form form={form} layout="vertical" disabled>
-            {questions.map((item, index) => {
-              return (
-                <>
-                  <Form.Item
-                    className="form__item"
-                    label={
-                      <>
-                        <Space>
-                          <h2>{`Câu ${index + 1} : ${item.question}`}</h2>
-                          {item.correctAnswer == answers[index] ? (
-                            <Tag className="tag" color="#34A853">
-                              Đúng
-                            </Tag>
-                          ) : (
-                            <Tag className="tag" color="#EA4335">
-                              Sai
-                            </Tag>
-                          )}
+                <Progress
+                  type="circle"
+                  showInfo={true}
+                  percent={((countCorrect / questions.length) * 100).toFixed()}
+                  strokeColor="#34A853"
+                  trailColor="#EA4335"
+                ></Progress>
+              </Flex>
+            </div>
+            <Form form={form} layout="vertical" disabled>
+              {questions.map((item, index) => {
+                return (
+                  <>
+                    <Form.Item
+                      className="form__item"
+                      label={
+                        <>
+                          <Space>
+                            <h2>{`Câu ${index + 1} : ${item.question}`}</h2>
+                            {item.correctAnswer == answers[index] ? (
+                              <Tag className="tag" color="#34A853">
+                                Đúng
+                              </Tag>
+                            ) : (
+                              <Tag className="tag" color="#EA4335">
+                                Sai
+                              </Tag>
+                            )}
+                          </Space>
+                        </>
+                      }
+                      name={["answers", index, "answer"]}
+                    >
+                      <Radio.Group className="radio">
+                        <Space direction="vertical">
+                          {item.answers.map((value, i) => {
+                            return (
+                              <Radio
+                                className={
+                                  answers[index] == i &&
+                                  answers[index] != item.correctAnswer
+                                    ? "false"
+                                    : item.correctAnswer == i
+                                    ? "true"
+                                    : ""
+                                }
+                                value={i}
+                              >
+                                {value.answer}
+                              </Radio>
+                            );
+                          })}
                         </Space>
-                      </>
-                    }
-                    name={["answers", index, "answer"]}
-                  >
-                    <Radio.Group className="radio">
-                      <Space direction="vertical">
-                        {item.answers.map((value, i) => {
-                          return (
-                            <Radio
-                              className={
-                                answers[index] == i &&
-                                answers[index] != item.correctAnswer
-                                  ? "false"
-                                  : item.correctAnswer == i
-                                  ? "true"
-                                  : ""
-                              }
-                              value={i}
-                            >
-                              {value.answer}
-                            </Radio>
-                          );
-                        })}
-                      </Space>
-                    </Radio.Group>
-                  </Form.Item>
-                </>
-              );
-            })}
-          </Form>
-        </Flex>
-      </div>
+                      </Radio.Group>
+                    </Form.Item>
+                  </>
+                );
+              })}
+            </Form>
+          </Flex>
+        </div>
+      )}
     </>
   );
 }

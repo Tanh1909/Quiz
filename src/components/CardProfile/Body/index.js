@@ -15,17 +15,17 @@ import { useState } from "react";
 function CardProfileBody({ user, update, setUpdate, setUser }) {
   const [api, contextHolder] = notification.useNotification();
   const [loading, setLoading] = useState(false);
+  const [form] = Form.useForm();
   const handleSubmit = async (value) => {
     setLoading(true);
     const response = await patchUser(value);
+
     setLoading(false);
-    if (response.code == 200) {
+    if (response) {
       setUser(response.data);
       setUpdate(false);
     } else {
-      api["error"]({
-        message: "Cập nhật thông tin thất bại!",
-      });
+      form.setFields([{ name: "email", errors: ["email đã tồn tại"] }]);
     }
   };
   return (
@@ -48,6 +48,7 @@ function CardProfileBody({ user, update, setUpdate, setUser }) {
           >
             <Card className="CardProfileBody" title="Thông tin cá nhân">
               <Form
+                form={form}
                 initialValues={user}
                 onFinish={handleSubmit}
                 disabled={!update}
@@ -74,6 +75,10 @@ function CardProfileBody({ user, update, setUpdate, setUser }) {
                     {
                       required: true,
                       message: "Vui lòng nhập email!",
+                    },
+                    {
+                      type: "email",
+                      message: "Vui lòng nhập đúng định dạng!",
                     },
                   ]}
                 >

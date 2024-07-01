@@ -1,5 +1,4 @@
 import { axios } from "../utils/fetchData";
-
 const getAllTopic = async () => {
   try {
     const response = await axios.get("topics");
@@ -23,8 +22,21 @@ const createTopic = async (data) => {
   try {
     const response = await axios.post("/topics", data);
     return response.data;
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
 };
+const patchTopicById = async (id, data) => {
+  try {
+    const response = await axios.patch(`/topics${id}`, data);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
 const uploadImageTopic = async (id, image) => {
   try {
     const response = await axios.post(`/topics/${id}/image`, image, {
@@ -69,4 +81,5 @@ export {
   deleteTopicById,
   findTopicsByName,
   findTopicsByCategory,
+  patchTopicById,
 };

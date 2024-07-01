@@ -23,6 +23,7 @@ import { useDispatch } from "react-redux";
 import { logoutAction } from "../../redux/actions";
 import { createAnswer } from "../../services/answer";
 function FormQuestion({ questions, id }) {
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [api, contextHolder] = notification.useNotification();
   const [form] = Form.useForm();
@@ -31,7 +32,7 @@ function FormQuestion({ questions, id }) {
   const navigate = useNavigate();
 
   const onFinish = async (values) => {
-    console.log(values);
+    setLoading(true);
     const reqValue = { ...values, topicId: id };
     if (localStorage.getItem("jwt") && localStorage.getItem("user")) {
       const response = await createAnswer(reqValue);
@@ -45,6 +46,7 @@ function FormQuestion({ questions, id }) {
         message: "Vui lòng đăng nhập",
       });
     }
+    setLoading(false);
   };
 
   const onReset = () => {
@@ -169,7 +171,7 @@ function FormQuestion({ questions, id }) {
             ))}
 
             <Form.Item hidden={!exam}>
-              <Button className="btnSubmit" htmlType="submit">
+              <Button loading={loading} className="btnSubmit" htmlType="submit">
                 Nộp
               </Button>
             </Form.Item>

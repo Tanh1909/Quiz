@@ -45,6 +45,10 @@ function RegisterForm({ cancel, api }) {
               required: true,
               message: "Vui lòng nhập email",
             },
+            {
+              type: "email",
+              message: "Vui lòng nhập đúng định dạng",
+            },
           ]}
         >
           <Input />
