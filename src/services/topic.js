@@ -29,7 +29,7 @@ const createTopic = async (data) => {
 };
 const patchTopicById = async (id, data) => {
   try {
-    const response = await axios.patch(`/topics${id}`, data);
+    const response = await axios.patch(`/topics/${id}`, data);
     return response.data;
   } catch (error) {
     console.log(error);

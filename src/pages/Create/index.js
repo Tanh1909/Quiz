@@ -56,6 +56,7 @@ function Create() {
     block: "center",
   };
   const { id } = useParams();
+
   useEffect(() => {
     const fetchData = async (id) => {
       setLoadingPage(true);
@@ -78,7 +79,7 @@ function Create() {
       } else {
         dispatch(logoutAction());
       }
-      setLoading(false);
+      setLoadingPage(false);
     };
     if (id) {
       fetchData(id);
